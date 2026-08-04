@@ -3,18 +3,11 @@ import { CtaFinal, GradeTratamentos, Surge, TopoPagina } from "@/components/Seco
 import { IconeWhatsapp } from "@/components/Icones";
 import { agendarUrl, site } from "@/content/site";
 import { reabilitacao } from "@/content/pages";
-import { servicoSchema, useSeo } from "@/lib/seo";
+import { useSeo } from "@/lib/seo";
+import { rota } from "@/content/rotas";
 
 export default function Reabilitacao() {
-  useSeo({
-    ...reabilitacao.meta,
-    path: reabilitacao.path,
-    jsonLd: servicoSchema(
-      "Reabilitação Oral",
-      reabilitacao.meta.description,
-      reabilitacao.path,
-    ),
-  });
+  useSeo(rota(reabilitacao.path));
 
   return (
     <Pagina>

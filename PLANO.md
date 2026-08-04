@@ -63,11 +63,14 @@ ilustram /sobre, /reabilitacao-oral e /diferenciais.
 
 ```
 client/src/
-  content/site.ts      dados institucionais (contato, endereço, fotos, flags)
-  content/pages.ts     COPY LITERAL do documento aprovado — não editar sem alinhar
-  lib/seo.ts           useSeo (title/description/canonical/OG) + schema.org
-  components/          Brand, Layout (header/footer/whatsapp), Secoes, Icones
-  pages/               uma página por rota
+  content/site.ts            dados institucionais (contato, endereço, fotos, flags)
+  content/pages.ts           COPY LITERAL do documento aprovado — não editar sem alinhar
+  content/rotas.ts           registro das rotas indexáveis (SEO + pré-renderização)
+  content/palavras-chave.ts  palavra-chave primária por rota, variantes, cidades
+  lib/seo.ts                 useSeo (title/description/canonical/OG) + schema.org
+  entry-ssr.tsx              entrada usada só no build (HTML estático + llms.txt)
+  components/                Brand, Layout (header/footer/whatsapp), Secoes, Icones
+  pages/                     uma página por rota
 ```
 
 Toda a copy exibida vem de `content/pages.ts`, transcrita literalmente de
@@ -82,7 +85,8 @@ seção da home e legendas do carrossel, derivados da Estratégia de Posicioname
 `/diferenciais` · `/dentista-em-indaiatuba` · `/perguntas-frequentes` · `/contato`
 
 `/depoimentos` existe em código, mas só é registrada quando `site.showTestimonials` vira
-`true` (hoje `false`, sem depoimentos coletados). Também fica fora do `sitemap.xml`.
+`true` (hoje `false`, sem depoimentos coletados). Ao virar a flag, a rota passa a ser
+pré-renderizada e entra no `sitemap.xml` sozinha.
 
 ## Checklist do documento da clínica
 
@@ -95,13 +99,21 @@ seção da home e legendas do carrossel, derivados da Estratégia de Posicioname
 - [x] Seção de depoimentos estruturada como componente reutilizável, nascendo vazia
 - [x] Nenhuma menção a equipamento de raio-x digital
 
-## SEO
+## SEO e GEO
 
-- `useSeo` troca title/description/canonical/OG a cada rota; JSON-LD é reinjetado por página.
-- `client/public/sitemap.xml` e `robots.txt` gerados com as 14 rotas.
+Detalhes completos em [SEO.md](SEO.md) — inclusive o que é código, o que é configuração de
+VPS e o que é plataforma externa (Perfil da Empresa no Google etc.).
+
+- `content/rotas.ts` é o registro único das rotas indexáveis: alimenta o `useSeo` das
+  páginas **e** a pré-renderização. Rota nova sem registro estoura em `rota()`.
+- `content/palavras-chave.ts` mapeia a palavra-chave primária de cada rota e alimenta
+  `knowsAbout` / `areaServed` do schema.
+- O build gera **HTML estático por rota**, `sitemap.xml` e `llms.txt` (`script/prerender.ts`).
+  Isso existe porque crawlers de IA não executam JavaScript — sem o HTML pronto, eles viam
+  só a casca da SPA.
+- schema.org: `Dentist` (com `geo`, `areaServed` e horários nos dois turnos), `Person`,
+  `WebSite`, `MedicalProcedure`, `FAQPage` e `BreadcrumbList`, todos consolidados por `@id`.
 - Meta title/description de cada página vieram prontos do documento da clínica.
-- É uma SPA: o HTML inicial traz a meta da home e o Google renderiza o JS para as demais.
-  Se a clínica quiser HTML estático por rota, o próximo passo é um prerender no build.
 
 ## Dados confirmados
 

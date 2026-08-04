@@ -14,10 +14,11 @@ import { MarcaLemarcContorno } from "@/components/Brand";
 import { IconeSeta, IconeWhatsapp, iconesDiferencial } from "@/components/Icones";
 import { agendarUrl, site } from "@/content/site";
 import { diferenciais, faq, home, reabilitacao, sobre } from "@/content/pages";
-import { dentistSchema, useSeo } from "@/lib/seo";
+import { useSeo } from "@/lib/seo";
+import { rota } from "@/content/rotas";
 
 export default function Home() {
-  useSeo({ ...home.meta, path: home.path, jsonLd: dentistSchema });
+  useSeo(rota(home.path));
 
   return (
     <Pagina heroTransparente>

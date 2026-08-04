@@ -1,10 +1,11 @@
 import { Pagina } from "@/components/Layout";
 import { Acordeao, CtaFinal, TopoPagina } from "@/components/Secoes";
 import { faq } from "@/content/pages";
-import { faqSchema, useSeo } from "@/lib/seo";
+import { useSeo } from "@/lib/seo";
+import { rota } from "@/content/rotas";
 
 export default function Faq() {
-  useSeo({ ...faq.meta, path: faq.path, jsonLd: faqSchema(faq.itens) });
+  useSeo(rota(faq.path));
 
   return (
     <Pagina>

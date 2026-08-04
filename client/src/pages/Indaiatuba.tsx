@@ -3,10 +3,11 @@ import { DadosContato, GradeTratamentos, SecaoContato, Surge, TopoPagina } from 
 import { IconeWhatsapp } from "@/components/Icones";
 import { agendarUrl } from "@/content/site";
 import { indaiatuba } from "@/content/pages";
-import { dentistSchema, useSeo } from "@/lib/seo";
+import { useSeo } from "@/lib/seo";
+import { rota } from "@/content/rotas";
 
 export default function Indaiatuba() {
-  useSeo({ ...indaiatuba.meta, path: indaiatuba.path, jsonLd: dentistSchema });
+  useSeo(rota(indaiatuba.path));
 
   return (
     <Pagina>

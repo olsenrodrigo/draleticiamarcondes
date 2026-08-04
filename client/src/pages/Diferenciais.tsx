@@ -4,9 +4,10 @@ import { iconesDiferencial } from "@/components/Icones";
 import { site } from "@/content/site";
 import { diferenciais } from "@/content/pages";
 import { useSeo } from "@/lib/seo";
+import { rota } from "@/content/rotas";
 
 export default function Diferenciais() {
-  useSeo({ ...diferenciais.meta, path: diferenciais.path });
+  useSeo(rota(diferenciais.path));
 
   return (
     <Pagina>

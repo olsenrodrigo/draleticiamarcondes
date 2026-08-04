@@ -2,10 +2,11 @@ import { Pagina } from "@/components/Layout";
 import { CtaFinal, Depoimentos, Surge, TopoPagina } from "@/components/Secoes";
 import { site } from "@/content/site";
 import { home, sobre } from "@/content/pages";
-import { dentistSchema, useSeo } from "@/lib/seo";
+import { useSeo } from "@/lib/seo";
+import { rota } from "@/content/rotas";
 
 export default function Sobre() {
-  useSeo({ ...sobre.meta, path: sobre.path, jsonLd: dentistSchema });
+  useSeo(rota(sobre.path));
 
   return (
     <Pagina>

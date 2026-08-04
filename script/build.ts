@@ -38,6 +38,10 @@ async function buildAll() {
   console.log("building client...");
   await viteBuild();
 
+  // HTML estático por rota + sitemap.xml + llms.txt (ver script/prerender.ts)
+  const { gerar } = await import("./prerender");
+  await gerar();
+
   console.log("building server...");
   const pkg = JSON.parse(await readFile("package.json", "utf-8"));
   const allDeps = [

@@ -2,13 +2,14 @@ import { Pagina } from "@/components/Layout";
 import { CtaFinal, Depoimentos as SecaoDepoimentos, TopoPagina } from "@/components/Secoes";
 import { depoimentos } from "@/content/pages";
 import { useSeo } from "@/lib/seo";
+import { rota } from "@/content/rotas";
 
 /**
  * Rota registrada apenas quando `site.showTestimonials` é true — a seção nasce
  * estruturada, mas fora do ar até a clínica autorizar os depoimentos.
  */
 export default function Depoimentos() {
-  useSeo({ ...depoimentos.meta, path: depoimentos.path });
+  useSeo(rota(depoimentos.path));
 
   return (
     <Pagina>

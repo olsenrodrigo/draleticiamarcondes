@@ -4,14 +4,11 @@ import { AvisoPilar, CtaFinal, SecaoContato, Surge, TopoPagina } from "@/compone
 import { IconeSeta, IconeWhatsapp, iconesTratamento } from "@/components/Icones";
 import { agendarUrl } from "@/content/site";
 import { procedimentos, reabilitacao, type Procedimento as Tipo } from "@/content/pages";
-import { servicoSchema, useSeo } from "@/lib/seo";
+import { useSeo } from "@/lib/seo";
+import { rota } from "@/content/rotas";
 
 export default function Procedimento({ dados }: { dados: Tipo }) {
-  useSeo({
-    ...dados.meta,
-    path: dados.path,
-    jsonLd: servicoSchema(dados.card, dados.meta.description, dados.path),
-  });
+  useSeo(rota(dados.path));
 
   const Icone = iconesTratamento[dados.icone];
   const outros = procedimentos.filter((p) => p.path !== dados.path);

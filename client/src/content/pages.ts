@@ -116,7 +116,9 @@ export type Procedimento = {
   naPilar: boolean;
   h1: string;
   corpo: string[];
-  destaque?: { titulo: string; texto: string };
+  /** Bloco "dúvida comum". `pergunta` alimenta o schema Question quando o
+   *  título exibido não é uma pergunta de busca. */
+  destaque?: { titulo: string; texto: string; pergunta?: string };
   cta: string;
   ctaContexto: string;
   meta: Meta;
@@ -137,6 +139,7 @@ export const procedimentos: Procedimento[] = [
     ],
     destaque: {
       titulo: "Uma dúvida comum",
+      pergunta: "Qual a diferença entre pino e implante dentário?",
       texto:
         "Muitos pacientes usam “pino” e “implante” como sinônimos, mas são coisas diferentes: o pino é utilizado dentro do próprio dente, geralmente após um tratamento de canal, enquanto o implante substitui a raiz de um dente que já foi perdido. Entender essa diferença ajuda a escolher o tratamento certo para cada caso.",
     },

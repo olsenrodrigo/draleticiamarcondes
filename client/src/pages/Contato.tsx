@@ -1,10 +1,11 @@
 import { Pagina } from "@/components/Layout";
 import { DadosContato, Formulario, TopoPagina } from "@/components/Secoes";
 import { contato } from "@/content/pages";
-import { dentistSchema, useSeo } from "@/lib/seo";
+import { useSeo } from "@/lib/seo";
+import { rota } from "@/content/rotas";
 
 export default function Contato() {
-  useSeo({ ...contato.meta, path: contato.path, jsonLd: dentistSchema });
+  useSeo(rota(contato.path));
 
   return (
     <Pagina>
