@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
-import { LogoLemarc } from "@/components/Brand";
+import { LogoLemarc, LogoLemarcCompacto, MarcaLemarc } from "@/components/Brand";
 import { IconeFechar, IconeInstagram, IconeMenu, IconeWhatsapp } from "@/components/Icones";
 import { agendarUrl, site } from "@/content/site";
 import { contato, diferenciais, faq, indaiatuba, procedimentos, reabilitacao, sobre } from "@/content/pages";
@@ -37,8 +37,11 @@ export function Cabecalho({ transparenteNoTopo = false }: { transparenteNoTopo?:
     >
       <div className="wrap">
         <div className="cabecalho-inner">
+          {/* Cabecalho usa o lockup sem o descritivo: numa barra de 78px o
+              "ODONTOLOGIA" do lockup completo cairia para ~4px e viraria borrao.
+              O lockup completo fica no rodape, onde ha altura para ele. */}
           <Link href="/" className="marca-link" aria-label="Lemarc Odontologia — página inicial">
-            <LogoLemarc />
+            <LogoLemarcCompacto titulo="Lemarc Odontologia" />
           </Link>
 
           <nav className="menu" aria-label="Navegação principal">
@@ -150,6 +153,7 @@ export function Rodape() {
         </div>
 
         <div className="rodape-base">
+          <MarcaLemarc className="rodape-selo" />
           <span>
             © {new Date().getFullYear()} {site.name}. Todos os direitos reservados.
           </span>

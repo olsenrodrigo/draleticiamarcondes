@@ -14,7 +14,7 @@ export default function Faq() {
         trilha={[{ label: "Perguntas frequentes" }]}
       />
 
-      <section className="secao fundo-creme">
+      <section className="secao fundo-nuvem">
         <div className="wrap-estreito">
           <Acordeao itens={faq.itens} />
         </div>

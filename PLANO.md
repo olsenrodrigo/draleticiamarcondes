@@ -15,32 +15,49 @@ npm start                 # produção
 
 ## Identidade visual
 
-**O logo não foi inventado — foi vetorizado a partir do logo que a clínica já usa** (aparece
-no jaleco da Dra. Letícia e nas artes do Instagram @dra.lemarc). Reconstrução em SVG puro,
-`currentColor`, sem dependência de webfont:
+**A marca é a oficial**, vetorizada dos arquivos entregues pela clínica em
+`insumos/novos/` (manual de identidade da kamillakiffer design, 2023). Os PDFs vinham
+como arte quadrada com muita margem e fundo pastel chapado; as formas foram recortadas
+no conteúdo, o fundo removido e tudo reescrito em `currentColor`, sem webfont:
 
-- `client/src/components/Brand.tsx` — `LogoLemarc` (lockup completo), `LogoLemarcCompacto`
-  (sem o descritivo) e `MarcaLemarc` (só as duas pétalas, usada como selo).
-- `client/src/assets/brand/*.svg` — mesmas formas como arquivo, para uso fora do React.
-- A marca são dois "U" didones sobrepostos; o wordmark é Bodoni 72 condensado a 0,82
-  (as larguras foram medidas no logo original — a fonte da marca é uma didone condensada).
-- Favicon, apple-touch-icon e `opengraph.jpg` derivam da mesma marca.
+| origem | componente | uso |
+|---|---|---|
+| `logo_oficial.pdf` | `LogoLemarc` | lockup completo (símbolo + LEMARC + ODONTOLOGIA) — rodapé, OG |
+| idem, sem o descritivo | `LogoLemarcCompacto` | cabeçalho (a 78px de barra o "ODONTOLOGIA" cairia para ~4px) |
+| `_simbolo_escuro_fundo_azul_claro.pdf` | `MarcaLemarc` | símbolo sólido — favicon, selo do rodapé, marcador de seção |
+| `_simbolo_variação_...pdf` | `MarcaLemarcContorno` | símbolo em contorno — marca d'água (hero e manifesto) |
 
-**Paleta** (definida a partir das fotos da clínica — madeira, areia, verde sálvia):
+- `client/src/assets/brand/*.svg` — as mesmas formas como arquivo, para uso fora do React.
+- `favicon.svg/png`, `apple-touch-icon.png` e `opengraph.jpg` são gerados do símbolo sólido
+  e do lockup sobre o azul pastel oficial.
+
+**Paleta** — os arquivos de marca têm **apenas duas cores**: tinta `#1D252D` e azul pastel
+`#CED9E5`. A escala interpola entre elas no mesmo matiz (~210°), com um pouco mais de croma
+nos tons médios para que links e botões não fiquem apagados.
 
 | token | hex | uso |
 |---|---|---|
-| `--verde-700` | `#1e3a32` | primário, seções escuras, botões |
-| `--verde-600` | `#2b5346` | hover, ícones, links |
-| `--sage-veu` | `#dfe8e1` | blocos de destaque |
-| `--areia` | `#e3d6c3` | botão sobre fundo escuro |
-| `--creme` | `#faf7f1` | fundo do site |
-| `--verde-900` | `#14251f` | títulos e rodapé |
+| `--azul-800` | `#1d252d` | **tinta oficial** — títulos, texto forte |
+| `--azul-700` | `#26313d` | primário, seções escuras, botões |
+| `--azul-600` | `#35495c` | hover, ícones, links |
+| `--azul-200` | `#ced9e5` | **pastel oficial** — botão sobre fundo escuro |
+| `--azul-100` | `#e3eaf1` | blocos de destaque |
+| `--nuvem` | `#f6f9fb` | fundo do site |
+| `--azul-900` | `#131a21` | rodapé |
 
 **Tipografia**: Cormorant Garamond (títulos) + Karla (corpo/UI).
 
+> O manual da clínica especifica **MIAMO** (nome/tagline) e **Museo Sans** (apoio) — as duas
+> são comerciais e não têm licença web, então não foram adotadas. Cormorant Garamond é uma
+> didone de contraste alto, próxima da MIAMO do wordmark; se a clínica comprar a licença
+> web, trocar é uma alteração de duas linhas no `:root` do `index.css`.
+
 > Nada foi reaproveitado do site do Dr. Germano além da arquitetura de pastas do
 > whitelabel_v2 — paleta, tipografia, componentes e CSS são próprios.
+
+**Fotos** (`insumos/novos/`, ensaio da clínica): `principal` abre o hero; `recepcao`,
+`consultorio`, `diagnostico`, `planejamento` e `clinica` formam o carrossel da home e
+ilustram /sobre, /reabilitacao-oral e /diferenciais.
 
 ## Arquitetura
 
@@ -96,11 +113,9 @@ seção da home e legendas do carrossel, derivados da Estratégia de Posicioname
 
 - **Domínio definitivo**: `site.origin` está como `https://lemarcodontologia.com.br`
   (usado em canonical, sitemap e OG). Ajustar em `content/site.ts` antes de publicar.
-- **Autorização de imagem** da paciente infantil da foto `dra-leticia-paciente.jpg` — a foto
-  veio dos insumos e já foi publicada pela clínica no Instagram, mas confirmar o
-  consentimento dos responsáveis antes de subir o site.
-- **Mais fotos da clínica** (recepção, consultório, equipamentos): o carrossel e a galeria
-  ficam mais fortes com 5–6 imagens; hoje são 3.
+- ~~**Autorização de imagem** da paciente infantil~~ — resolvido: o ensaio novo substituiu
+  todas as fotos antigas e nenhuma imagem de paciente é exibida no site.
+- ~~**Mais fotos da clínica**~~ — resolvido: 6 imagens novas, 5 delas no carrossel da home.
 - **Depoimentos autorizados** → popular `depoimentos.itens` e virar `showTestimonials`.
 - **Fotos e CRO dos especialistas parceiros** (Dr. Rick, Dra. Juliana, Dra. Lara) — a seção
   de equipe está pronta para recebê-los.

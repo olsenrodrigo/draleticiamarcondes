@@ -20,7 +20,7 @@ export default function Indaiatuba() {
         </p>
       </TopoPagina>
 
-      <section className="secao fundo-creme">
+      <section className="secao fundo-nuvem">
         <div className="wrap-estreito conteudo-longo">
           <p>{indaiatuba.corpo}</p>
           <ul className="lista-marcada duas" style={{ margin: "1.6em 0" }}>
@@ -59,7 +59,7 @@ export default function Indaiatuba() {
         </div>
       </section>
 
-      <section className="secao fundo-creme">
+      <section className="secao fundo-nuvem">
         <div className="wrap">
           <Surge>
             <p className="sobrelinha">Tratamentos</p>

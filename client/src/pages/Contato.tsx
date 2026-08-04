@@ -14,7 +14,7 @@ export default function Contato() {
         </p>
       </TopoPagina>
 
-      <section className="secao fundo-creme">
+      <section className="secao fundo-nuvem">
         <div className="wrap grade-contato">
           <DadosContato />
           <Formulario origem="página de contato" />

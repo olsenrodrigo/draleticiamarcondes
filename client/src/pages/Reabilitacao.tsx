@@ -24,7 +24,7 @@ export default function Reabilitacao() {
         trilha={[{ label: "Reabilitação Oral" }]}
       />
 
-      <section className="secao fundo-creme">
+      <section className="secao fundo-nuvem">
         <div className="wrap duas-colunas alinha-topo">
           <div className="conteudo-longo">
             {reabilitacao.corpo.map((p) => (
@@ -41,8 +41,8 @@ export default function Reabilitacao() {
           </div>
           <figure className="coluna-figura" style={{ margin: 0 }}>
             <img
-              src={site.fotos.atendimento.src}
-              alt={site.fotos.atendimento.alt}
+              src={site.fotos.planejamento.src}
+              alt={site.fotos.planejamento.alt}
               width={900}
               height={1539}
             />
@@ -50,7 +50,7 @@ export default function Reabilitacao() {
         </div>
       </section>
 
-      <section className="secao fundo-verde">
+      <section className="secao fundo-azul">
         <div className="wrap-estreito" style={{ textAlign: "center" }}>
           <Surge>
             <p className="assinatura" style={{ color: "var(--branco)" }}>

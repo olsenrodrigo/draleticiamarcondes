@@ -11,7 +11,7 @@ export default function Sobre() {
     <Pagina>
       <TopoPagina titulo={sobre.h1} sobrelinha="Sobre a Lemarc" trilha={[{ label: "Sobre" }]} />
 
-      <section className="secao fundo-creme">
+      <section className="secao fundo-nuvem">
         <div className="wrap duas-colunas alinha-topo">
           <div className="conteudo-longo">
             {sobre.corpo.map((p) => (
@@ -26,8 +26,8 @@ export default function Sobre() {
           </div>
           <figure className="coluna-figura" style={{ margin: 0 }}>
             <img
-              src={site.fotos.retrato.src}
-              alt={site.fotos.retrato.alt}
+              src={site.fotos.recepcao.src}
+              alt={site.fotos.recepcao.alt}
               width={1000}
               height={1270}
             />
@@ -51,7 +51,7 @@ export default function Sobre() {
         </div>
       </section>
 
-      <section className="secao fundo-creme">
+      <section className="secao fundo-nuvem">
         <div className="wrap">
           <Surge>
             <p className="sobrelinha">Equipe</p>

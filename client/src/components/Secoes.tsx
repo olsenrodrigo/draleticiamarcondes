@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import useEmblaCarousel from "embla-carousel-react";
 import * as Accordion from "@radix-ui/react-accordion";
 import { z } from "zod";
-import { MarcaLemarc } from "@/components/Brand";
+import { MarcaLemarc, MarcaLemarcContorno } from "@/components/Brand";
 import {
   IconeChevron,
   IconeEmail,
@@ -95,7 +95,8 @@ export function TopoPagina({
 
 export function Manifesto() {
   return (
-    <section className="secao fundo-verde">
+    <section className="secao fundo-azul manifesto-fundo">
+      <MarcaLemarcContorno className="marca-dagua" />
       <div className="wrap-estreito manifesto">
         <Surge>
           <MarcaLemarc className="marca-petala" />
@@ -251,7 +252,7 @@ export function CtaFinal({
   contexto?: string;
 }) {
   return (
-    <section className="secao fundo-verde">
+    <section className="secao fundo-azul">
       <div className="wrap cta-final">
         <Surge>
           <MarcaLemarc className="marca-petala" />
@@ -272,7 +273,7 @@ export function CtaFinal({
 
 export function Depoimentos() {
   return (
-    <section className="secao fundo-creme">
+    <section className="secao fundo-nuvem">
       <div className="wrap">
         <p className="sobrelinha">Depoimentos</p>
         <h2>{copyDepoimentos.h1}</h2>
@@ -438,7 +439,7 @@ export function SecaoContato({
   origem: string;
 }) {
   return (
-    <section className="secao fundo-creme" id="agendar">
+    <section className="secao fundo-nuvem" id="agendar">
       <div className="wrap">
         <p className="sobrelinha">Agendamento</p>
         <h2>{titulo}</h2>

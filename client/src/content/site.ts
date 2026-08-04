@@ -1,6 +1,9 @@
-import retrato from "@/assets/images/dra-leticia-retrato.jpg";
-import atendimento from "@/assets/images/dra-leticia-atendimento.jpg";
-import paciente from "@/assets/images/dra-leticia-paciente.jpg";
+import principal from "@/assets/images/dra-leticia-principal.jpg";
+import recepcao from "@/assets/images/dra-leticia-recepcao.jpg";
+import consultorio from "@/assets/images/dra-leticia-consultorio.jpg";
+import clinica from "@/assets/images/dra-leticia-clinica.jpg";
+import planejamento from "@/assets/images/dra-leticia-planejamento.jpg";
+import diagnostico from "@/assets/images/dra-leticia-diagnostico.jpg";
 
 /** Dados institucionais. Toda a copy exibida vem daqui ou de `content/pages.ts`. */
 export const site = {
@@ -37,18 +40,31 @@ export const site = {
     whatsapp: "Agendar pelo WhatsApp",
   },
 
+  /** Ensaio fotográfico da clínica (insumos/novos). `principal` abre o hero. */
   fotos: {
-    retrato: {
-      src: retrato,
-      alt: "Dra. Letícia Marcondes, cirurgiã-dentista da Lemarc Odontologia",
+    principal: {
+      src: principal,
+      alt: "Dra. Letícia Marcondes na recepção da Lemarc Odontologia, diante da marca da clínica",
     },
-    atendimento: {
-      src: atendimento,
-      alt: "Dra. Letícia Marcondes durante o atendimento de uma paciente no consultório da Lemarc",
+    recepcao: {
+      src: recepcao,
+      alt: "Dra. Letícia Marcondes recebendo pacientes na recepção da Lemarc Odontologia",
     },
-    paciente: {
-      src: paciente,
-      alt: "Dra. Letícia Marcondes com uma paciente infantil na clínica Lemarc, em Indaiatuba",
+    consultorio: {
+      src: consultorio,
+      alt: "Dra. Letícia Marcondes ao lado da cadeira odontológica do consultório da Lemarc",
+    },
+    clinica: {
+      src: clinica,
+      alt: "Dra. Letícia Marcondes na clínica Lemarc, em Indaiatuba, pronta para atender",
+    },
+    planejamento: {
+      src: planejamento,
+      alt: "Dra. Letícia Marcondes preparando o planejamento de um tratamento no computador",
+    },
+    diagnostico: {
+      src: diagnostico,
+      alt: "Dra. Letícia Marcondes analisando uma radiografia panorâmica durante o diagnóstico",
     },
   },
 } as const;

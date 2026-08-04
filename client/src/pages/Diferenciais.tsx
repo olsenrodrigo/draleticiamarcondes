@@ -20,7 +20,7 @@ export default function Diferenciais() {
         </p>
       </TopoPagina>
 
-      <section className="secao fundo-creme">
+      <section className="secao fundo-nuvem">
         <div className="wrap duas-colunas alinha-topo">
           <div className="conteudo-longo">
             {diferenciais.itens.map((item) => {
@@ -36,8 +36,8 @@ export default function Diferenciais() {
           </div>
           <figure className="coluna-figura" style={{ margin: 0, position: "sticky", top: 120 }}>
             <img
-              src={site.fotos.atendimento.src}
-              alt={site.fotos.atendimento.alt}
+              src={site.fotos.clinica.src}
+              alt={site.fotos.clinica.alt}
               width={900}
               height={1539}
             />

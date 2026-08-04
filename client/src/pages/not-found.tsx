@@ -27,7 +27,7 @@ export default function NotFound() {
         </div>
       </section>
 
-      <section className="secao fundo-creme">
+      <section className="secao fundo-nuvem">
         <div className="wrap">
           <p className="sobrelinha">Tratamentos</p>
           <h2 style={{ marginBottom: 46 }}>Talvez você esteja procurando por</h2>

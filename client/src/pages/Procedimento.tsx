@@ -27,7 +27,7 @@ export default function Procedimento({ dados }: { dados: Tipo }) {
         ]}
       />
 
-      <section className="secao fundo-creme">
+      <section className="secao fundo-nuvem">
         <div className="wrap-estreito conteudo-longo">
           <Icone style={{ width: 46, height: 46, color: "var(--verde-600)", marginBottom: 26 }} />
           {dados.corpo.map((p) => (
