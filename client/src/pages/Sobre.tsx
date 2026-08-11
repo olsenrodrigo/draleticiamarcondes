@@ -1,5 +1,6 @@
 import { Pagina } from "@/components/Layout";
 import { CtaFinal, Depoimentos, Surge, TopoPagina } from "@/components/Secoes";
+import { PerguntasDaPagina, RespostaDireta } from "@/components/Geo";
 import { site } from "@/content/site";
 import { home, sobre } from "@/content/pages";
 import { useSeo } from "@/lib/seo";
@@ -10,7 +11,9 @@ export default function Sobre() {
 
   return (
     <Pagina>
-      <TopoPagina titulo={sobre.h1} sobrelinha="Sobre a Lemarc" trilha={[{ label: "Sobre" }]} />
+      <TopoPagina titulo={sobre.h1} sobrelinha="Sobre a Lemarc" trilha={[{ label: "Sobre" }]}>
+        <RespostaDireta path={sobre.path} />
+      </TopoPagina>
 
       <section className="secao fundo-nuvem">
         <div className="wrap duas-colunas alinha-topo">
@@ -72,6 +75,8 @@ export default function Sobre() {
           </div>
         </div>
       </section>
+
+      <PerguntasDaPagina path={sobre.path} fundo="fundo-branco" />
 
       {site.showTestimonials && <Depoimentos />}
 

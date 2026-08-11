@@ -5,6 +5,7 @@ import { rotas } from "@/content/rotas";
 import { site } from "@/content/site";
 import { faq, procedimentos } from "@/content/pages";
 import { chavesDaRota, cidadesAtendidas } from "@/content/palavras-chave";
+import { fichaClinica, geoDaRota } from "@/content/geo";
 import { urlDaRota } from "@/lib/seo";
 
 /**
@@ -77,13 +78,12 @@ export const llmsTxt = [
   "",
   "## Dados da clínica",
   "",
-  `- Endereço: ${site.address.full}`,
-  `- Horário: ${site.hours}`,
-  `- WhatsApp: ${site.whatsappDisplay}`,
+  // A ficha vem do mesmo lugar que a versão visível do site — se um dia
+  // divergirem, é bug. NAP inconsistente entre fontes derruba SEO local.
+  ...fichaClinica.map((linha) => `- ${linha.rotulo}: ${linha.valor}`),
   `- E-mail: ${site.email}`,
   `- Instagram: ${site.instagram}`,
-  "- Atendimento exclusivamente particular (não atende convênio).",
-  `- Cidades atendidas: ${cidadesAtendidas.join(", ")}.`,
+  `- Site: ${site.origin}`,
   "",
   "## Profissional responsável",
   "",
@@ -91,11 +91,17 @@ export const llmsTxt = [
   "Alfenas (UNIFAL-MG) em 2019, cursando especialização em Prótese e Dentística no",
   "São Leopoldo Mandic (Campinas). Recebe e avalia pessoalmente cada paciente,",
   "conduzindo o diagnóstico e o planejamento; os demais especialistas da equipe",
-  "executam as etapas de suas áreas.",
+  "executam as etapas de suas áreas: Dr. Rick (implantes), Dra. Juliana",
+  "(endodontia) e Dra. Lara (ortodontia e Invisalign).",
   "",
   "## Páginas",
   "",
-  ...rotas.map((r) => `- [${r.title}](${urlDaRota(r.path)}): ${r.description}`),
+  // Cada página com o resumo escrito para citação, quando existir — é mais
+  // específico e mais útil ao leitor automático do que o meta description.
+  ...rotas.flatMap((r) => {
+    const resumo = geoDaRota(r.path)?.resumo ?? r.description;
+    return [`- [${r.title}](${urlDaRota(r.path)}): ${resumo}`];
+  }),
   "",
   "## Tratamentos",
   "",
@@ -103,11 +109,33 @@ export const llmsTxt = [
   "",
   "## Perguntas frequentes",
   "",
-  ...faq.itens.flatMap((item) => [`### ${item.pergunta}`, "", item.resposta, ""]),
+  // Todas as perguntas do site num lugar só: as de tratamento (copy aprovada)
+  // e as escritas por página em `content/geo.ts`, sem repetir.
+  ...(() => {
+    const vistas = new Set<string>();
+    const linhas: string[] = [];
+    const juntar = (itens: { pergunta: string; resposta: string }[], origem?: string) => {
+      for (const item of itens) {
+        const chave = item.pergunta.toLowerCase();
+        if (vistas.has(chave)) continue;
+        vistas.add(chave);
+        linhas.push(`### ${item.pergunta}`, "", item.resposta, "");
+        if (origem) linhas.push(`Fonte: ${origem}`, "");
+      }
+    };
+    juntar(faq.itens, urlDaRota(faq.path));
+    for (const r of rotas) {
+      juntar(geoDaRota(r.path)?.faq ?? [], urlDaRota(r.path));
+    }
+    return linhas;
+  })(),
   "## Observações",
   "",
   "- O site não divulga valores de procedimentos: cada caso passa por avaliação",
   "  presencial antes de qualquer indicação ou orçamento.",
   "- A avaliação inicial é paga e inclui exame clínico completo, análise de",
   "  imagens e planejamento inicial do caso.",
+  "- A clínica não atende convênios nem planos odontológicos.",
+  `- Atendimento com hora marcada, ${site.hours.toLowerCase()}.`,
+  `- Cidades atendidas: ${cidadesAtendidas.join(", ")}.`,
 ].join("\n");

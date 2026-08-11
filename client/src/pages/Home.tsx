@@ -1,7 +1,6 @@
 import { Link } from "wouter";
 import { Pagina } from "@/components/Layout";
 import {
-  Acordeao,
   Carrossel,
   CtaFinal,
   Depoimentos,
@@ -10,6 +9,12 @@ import {
   SecaoContato,
   Surge,
 } from "@/components/Secoes";
+import {
+  FichaClinica,
+  PerguntasDaPagina,
+  RespostaDireta,
+  SecoesGeo,
+} from "@/components/Geo";
 import { MarcaLemarcContorno } from "@/components/Brand";
 import { IconeSeta, IconeWhatsapp, iconesDiferencial } from "@/components/Icones";
 import { agendarUrl, site } from "@/content/site";
@@ -73,7 +78,11 @@ export default function Home() {
           <Surge>
             <p className="sobrelinha">A clínica</p>
             <h2 style={{ maxWidth: "24ch" }}>Atendimento humanizado em todas as fases da vida</h2>
-            <div className="duas-colunas alinha-topo" style={{ marginBottom: 54 }}>
+            <RespostaDireta path={home.path} />
+            <div
+              className="duas-colunas alinha-topo"
+              style={{ marginTop: 40, marginBottom: 54 }}
+            >
               <p className="chamada">{home.abertura[0]}</p>
               <p className="chamada">{home.abertura[1]}</p>
             </div>
@@ -190,16 +199,24 @@ export default function Home() {
         </div>
       </section>
 
+      <SecoesGeo path={home.path} fundo="fundo-branco" />
+
+      {/* As perguntas aqui são as da clínica (convênio, endereço, horário); as
+          de tratamento ficam em /perguntas-frequentes. Cada rota com FAQPage no
+          schema precisa exibir exatamente as perguntas que declara — marcação
+          sem conteúdo visível é violação de diretriz, não atalho. */}
+      <PerguntasDaPagina path={home.path} fundo="fundo-nuvem" />
+
       <section className="secao fundo-branco">
         <div className="wrap-estreito">
           <Surge>
-            <p className="sobrelinha">Dúvidas frequentes</p>
-            <h2>{faq.h1}</h2>
+            <p className="sobrelinha">A clínica em resumo</p>
+            <h2 style={{ marginBottom: 34 }}>Lemarc Odontologia</h2>
+            <FichaClinica />
           </Surge>
-          <Acordeao itens={faq.itens.slice(0, 4)} />
           <div className="linha-botoes">
             <Link className="link-seta" href={faq.path}>
-              Ver todas as perguntas <IconeSeta />
+              Ver todas as perguntas sobre tratamentos <IconeSeta />
             </Link>
           </div>
         </div>

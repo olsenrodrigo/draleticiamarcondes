@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Pagina } from "@/components/Layout";
 import { AvisoPilar, CtaFinal, SecaoContato, Surge, TopoPagina } from "@/components/Secoes";
+import { PerguntasDaPagina, RespostaDireta, SecoesGeo } from "@/components/Geo";
 import { IconeSeta, IconeWhatsapp, iconesTratamento } from "@/components/Icones";
 import { agendarUrl } from "@/content/site";
 import { procedimentos, reabilitacao, type Procedimento as Tipo } from "@/content/pages";
@@ -22,7 +23,9 @@ export default function Procedimento({ dados }: { dados: Tipo }) {
           { href: reabilitacao.path, label: "Reabilitação Oral" },
           { label: dados.nav },
         ]}
-      />
+      >
+        <RespostaDireta path={dados.path} />
+      </TopoPagina>
 
       <section className="secao fundo-nuvem">
         <div className="wrap-estreito conteudo-longo">
@@ -54,6 +57,10 @@ export default function Procedimento({ dados }: { dados: Tipo }) {
           </div>
         </div>
       </section>
+
+      <SecoesGeo path={dados.path} fundo="fundo-branco" />
+
+      <PerguntasDaPagina path={dados.path} fundo="fundo-nuvem" />
 
       <section className="secao-curta fundo-branco">
         <div className="wrap">

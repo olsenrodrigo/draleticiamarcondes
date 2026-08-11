@@ -6,8 +6,10 @@ import {
   chavesDaRota,
   cidadesAtendidas,
   todasAsChaves,
+  topicosDaClinica,
   variantesDeMarca,
 } from "@/content/palavras-chave";
+import { geoDaRota, type PerguntaGeo } from "@/content/geo";
 
 const ID_JSONLD = "seo-jsonld";
 
@@ -88,6 +90,15 @@ const ID_CLINICA = `${site.origin}/#clinica`;
 const ID_PESSOA = `${site.origin}/#leticia-marcondes`;
 const ID_SITE = `${site.origin}/#site`;
 
+/**
+ * Data da última revisão clínica do conteúdo, em `lastReviewed`.
+ *
+ * Conteúdo de saúde é YMYL ("your money or your life") — o Google pesa quem
+ * revisou e quando. Atualizar sempre que a Dra. Letícia revisar os textos;
+ * uma data velha aqui é pior do que nenhuma, então não deixar apodrecer.
+ */
+const DATA_REVISAO = "2026-08-11";
+
 const enderecoPostal = {
   "@type": "PostalAddress",
   streetAddress: "Rua 5 de Julho, 697 - Sala 2, Jardim Pau Preto",
@@ -112,6 +123,23 @@ const horarios = [
     closes: "18:00",
   },
 ];
+
+/**
+ * Cada cidade apontando para o próprio verbete — todas as URLs conferidas (200).
+ *
+ * Sem isso, "Salto" e "Capivari" são só strings ambíguas: existe Salto no Paraná,
+ * Capivari em Santa Catarina. Com o `sameAs`, o buscador e os motores generativos
+ * sabem de qual município se trata e a clínica entra na área geográfica certa.
+ */
+const verbeteDaCidade: Record<string, string> = {
+  Indaiatuba: "https://pt.wikipedia.org/wiki/Indaiatuba",
+  Salto: "https://pt.wikipedia.org/wiki/Salto_(São_Paulo)",
+  Itu: "https://pt.wikipedia.org/wiki/Itu",
+  "Elias Fausto": "https://pt.wikipedia.org/wiki/Elias_Fausto",
+  "Monte Mor": "https://pt.wikipedia.org/wiki/Monte_Mor",
+  Capivari: "https://pt.wikipedia.org/wiki/Capivari",
+  Campinas: "https://pt.wikipedia.org/wiki/Campinas",
+};
 
 export const pessoaSchema = {
   "@type": "Person",
@@ -160,8 +188,12 @@ export const dentistSchema = {
     name: cidade,
     addressRegion: "SP",
     addressCountry: "BR",
+    ...(verbeteDaCidade[cidade] ? { sameAs: verbeteDaCidade[cidade] } : {}),
   })),
-  knowsAbout: todasAsChaves,
+  // `knowsAbout` = tópicos; `keywords` = termos de busca. Trocar os dois de lugar
+  // é o erro mais comum de JSON-LD em site de clínica.
+  knowsAbout: topicosDaClinica,
+  keywords: todasAsChaves.join(", "),
   sameAs: [site.instagram],
   medicalSpecialty: [
     "Reabilitação Oral",
@@ -191,9 +223,10 @@ export const siteSchema = {
   publisher: { "@id": ID_CLINICA },
 };
 
-export const faqSchema = (itens: { pergunta: string; resposta: string }[]) => ({
+export const faqSchema = (itens: PerguntaGeo[], path?: string) => ({
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  ...(path ? { "@id": `${urlDaRota(path)}#faq` } : {}),
   inLanguage: "pt-BR",
   about: { "@id": ID_CLINICA },
   mainEntity: itens.map((item) => ({
@@ -203,18 +236,54 @@ export const faqSchema = (itens: { pergunta: string; resposta: string }[]) => ({
   })),
 });
 
+/**
+ * A página como entidade própria, com quem a revisou e quando.
+ *
+ * `MedicalWebPage` + `reviewedBy` + `lastReviewed` é o par que sinaliza autoria
+ * clínica em conteúdo de saúde. Sem isso, o texto é só texto: o buscador não
+ * tem como saber que uma cirurgiã-dentista inscrita no CRO respondeu por ele.
+ * O `description` usa o resumo do bloco GEO quando existe — é a frase escrita
+ * justamente para ser citada — e cai no meta description quando não existe.
+ */
+export const paginaSchema = (
+  path: string,
+  title: string,
+  description: string,
+  { medica = true }: { medica?: boolean } = {},
+) => {
+  const url = urlDaRota(path);
+  const geo = geoDaRota(path);
+  return {
+    "@type": medica ? "MedicalWebPage" : "WebPage",
+    "@id": `${url}#pagina`,
+    url,
+    name: title,
+    description: geo?.resumo ?? description,
+    inLanguage: "pt-BR",
+    isPartOf: { "@id": ID_SITE },
+    about: { "@id": ID_CLINICA },
+    primaryImageOfPage: `${site.origin}/opengraph.jpg`,
+    lastReviewed: DATA_REVISAO,
+    reviewedBy: { "@id": ID_PESSOA },
+    publisher: { "@id": ID_CLINICA },
+    ...(medica ? { audience: { "@type": "Patient" } } : {}),
+  };
+};
+
 export const servicoSchema = (
   nome: string,
   descricao: string,
   path: string,
   duvida?: { titulo: string; texto: string; pergunta?: string },
 ) => {
+  const geo = geoDaRota(path);
   const partes: unknown[] = [
     {
       "@type": "MedicalProcedure",
       "@id": `${urlDaRota(path)}#procedimento`,
       name: nome,
-      description: descricao,
+      // O resumo GEO é mais específico e mais citável que o meta description.
+      description: geo?.resumo ?? descricao,
       url: urlDaRota(path),
       procedureType: "https://schema.org/TherapeuticProcedure",
       bodyLocation: "Boca",
@@ -223,21 +292,25 @@ export const servicoSchema = (
     },
     dentistSchema,
   ];
-  // Os blocos "dúvida comum" das páginas de procedimento respondem a uma pergunta
-  // real de busca — marcá-los como Question os torna elegíveis a resposta direta.
-  if (duvida) {
-    partes.push({
-      "@type": "FAQPage",
-      "@id": `${urlDaRota(path)}#duvida`,
-      mainEntity: [
-        {
-          "@type": "Question",
-          name: duvida.pergunta ?? duvida.titulo,
-          acceptedAnswer: { "@type": "Answer", text: duvida.texto },
-        },
-      ],
-    });
-  }
+
+  // As perguntas da página viram um FAQPage só. Vêm de duas origens: o bloco
+  // "dúvida comum" da copy aprovada e o FAQ escrito para GEO em `content/geo.ts`.
+  // Marcá-las como Question as torna elegíveis a resposta direta na busca e dá
+  // aos motores generativos um par pergunta/resposta pronto para citar.
+  const perguntas: PerguntaGeo[] = [
+    ...(duvida ? [{ pergunta: duvida.pergunta ?? duvida.titulo, resposta: duvida.texto }] : []),
+    ...(geo?.faq ?? []),
+  ];
+  // A mesma pergunta pode chegar pelos dois caminhos (o caso do "pino ou implante").
+  const vistas = new Set<string>();
+  const unicas = perguntas.filter((p) => {
+    const chave = p.pergunta.toLowerCase();
+    if (vistas.has(chave)) return false;
+    vistas.add(chave);
+    return true;
+  });
+  if (unicas.length) partes.push(faqSchema(unicas, path));
+
   return grafo(...partes);
 };
 

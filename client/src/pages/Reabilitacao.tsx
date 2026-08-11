@@ -1,5 +1,6 @@
 import { Pagina } from "@/components/Layout";
 import { CtaFinal, GradeTratamentos, Surge, TopoPagina } from "@/components/Secoes";
+import { PerguntasDaPagina, RespostaDireta, SecoesGeo } from "@/components/Geo";
 import { IconeWhatsapp } from "@/components/Icones";
 import { agendarUrl, site } from "@/content/site";
 import { reabilitacao } from "@/content/pages";
@@ -15,7 +16,9 @@ export default function Reabilitacao() {
         titulo={reabilitacao.h1}
         sobrelinha="Página-pilar"
         trilha={[{ label: "Reabilitação Oral" }]}
-      />
+      >
+        <RespostaDireta path={reabilitacao.path} />
+      </TopoPagina>
 
       <section className="secao fundo-nuvem">
         <div className="wrap duas-colunas alinha-topo">
@@ -72,6 +75,10 @@ export default function Reabilitacao() {
           </div>
         </div>
       </section>
+
+      <SecoesGeo path={reabilitacao.path} fundo="fundo-nuvem" />
+
+      <PerguntasDaPagina path={reabilitacao.path} fundo="fundo-branco" />
 
       <CtaFinal
         titulo="Seu sorriso merece um tratamento que considera você por completo."

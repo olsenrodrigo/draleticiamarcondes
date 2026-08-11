@@ -91,14 +91,27 @@ export async function gerar() {
 
 async function gerarSitemap(caminhos: string[], origem: string) {
   const hoje = new Date().toISOString().slice(0, 10);
+
+  // As quatro rotas-alvo da clínica ficam em 0.9; o resto em 0.8. A prioridade
+  // é dica fraca para o Google, mas é lida por outros crawlers e não custa nada
+  // manter coerente com `content/palavras-chave.ts`.
+  const prioritarias = [
+    "/reabilitacao-oral",
+    "/odontologia-estetica",
+    "/dentista-em-indaiatuba",
+  ];
   const prioridade = (r: string) =>
-    r === "/" ? "1.0" : ["/reabilitacao-oral", "/dentista-em-indaiatuba"].includes(r) ? "0.9" : "0.8";
+    r === "/" ? "1.0" : prioritarias.includes(r) ? "0.9" : "0.8";
+
+  // Páginas de serviço mudam pouco; a home e a de contato mudam mais.
+  const frequencia = (r: string) => (r === "/" || r === "/contato" ? "weekly" : "monthly");
 
   const urls = caminhos
     .map(
       (r) =>
         `  <url>\n    <loc>${origem}${r === "/" ? "" : r}</loc>\n` +
-        `    <lastmod>${hoje}</lastmod>\n    <priority>${prioridade(r)}</priority>\n  </url>`,
+        `    <lastmod>${hoje}</lastmod>\n    <changefreq>${frequencia(r)}</changefreq>\n` +
+        `    <priority>${prioridade(r)}</priority>\n  </url>`,
     )
     .join("\n");
 

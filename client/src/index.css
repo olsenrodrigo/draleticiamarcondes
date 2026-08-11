@@ -332,6 +332,37 @@ strong { color: var(--azul-800); font-weight: 600; }
 .conteudo-longo > * + h2 { margin-top: 2em; }
 .conteudo-longo > * + h3 { margin-top: 1.6em; }
 
+/* -------------------------------------------------------------- SEO / GEO */
+/* Resposta direta: o parágrafo logo abaixo do H1 que motores generativos citam.
+   Peso visual de subtítulo sem virar outro H — é texto de leitura, não enfeite. */
+.resposta-direta {
+  max-width: 68ch; margin-top: 22px; padding-left: 20px;
+  border-left: 2px solid var(--azul-600);
+  font-size: 1.08rem; line-height: 1.62; color: var(--azul-800);
+}
+
+/* Cada seção é um bloco independente: o Surge anima uma de cada vez, e por isso
+   o `> * + h2` do .conteudo-longo não atravessa o wrapper — a margem vem daqui.
+   A classe fica no próprio Surge (ver Geo.tsx); se descer para o filho, os dois
+   blocos deixam de ser irmãos adjacentes e o seletor abaixo para de casar. */
+.secao-geo + .secao-geo { margin-top: 2.6em; }
+.secao-geo h2 { margin-bottom: .6em; font-size: clamp(1.35rem, 2vw, 1.7rem); }
+.secao-geo .lista-marcada { margin-top: 1.2em; }
+.secao-geo .lista-marcada + p { margin-top: 1.2em; }
+
+/* margin-top próprio: a ficha aparece tanto solta depois de um h2 quanto logo
+   abaixo de um .linha-botoes (que não tem margin-bottom e a deixaria colada). */
+.ficha-clinica { margin: 38px 0 0; border-top: 1px solid var(--linha-forte); }
+.ficha-clinica > div {
+  display: grid; grid-template-columns: minmax(140px, 30%) 1fr; gap: 8px 26px;
+  padding: 15px 0; border-bottom: 1px solid var(--linha);
+}
+.ficha-clinica dt {
+  font-size: .74rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--azul-600); align-self: center;
+}
+.ficha-clinica dd { margin: 0; font-size: .98rem; color: var(--azul-800); }
+
 /* --------------------------------------------------------------- animacao */
 .surge { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
 .surge[data-visivel="true"] { opacity: 1; transform: none; }
@@ -379,6 +410,9 @@ strong { color: var(--azul-800); font-weight: 600; }
   /* a moldura deslocada estouraria a largura da tela em telas estreitas */
   .hero-figura::before { display: none; }
   .acordeao-conteudo p { padding-right: 0; }
+  /* rótulo em cima do valor: em duas colunas a ficha fica ilegível aqui */
+  .ficha-clinica > div { grid-template-columns: 1fr; gap: 4px; }
+  .resposta-direta { padding-left: 16px; font-size: 1.02rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

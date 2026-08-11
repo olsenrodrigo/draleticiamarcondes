@@ -1,5 +1,6 @@
 import { Pagina } from "@/components/Layout";
 import { CtaFinal, TopoPagina } from "@/components/Secoes";
+import { PerguntasDaPagina, RespostaDireta } from "@/components/Geo";
 import { iconesDiferencial } from "@/components/Icones";
 import { site } from "@/content/site";
 import { diferenciais } from "@/content/pages";
@@ -19,6 +20,7 @@ export default function Diferenciais() {
         <p className="chamada" style={{ marginTop: 22 }}>
           {diferenciais.corpo}
         </p>
+        <RespostaDireta path={diferenciais.path} />
       </TopoPagina>
 
       <section className="secao fundo-nuvem">
@@ -45,6 +47,8 @@ export default function Diferenciais() {
           </figure>
         </div>
       </section>
+
+      <PerguntasDaPagina path={diferenciais.path} fundo="fundo-branco" />
 
       <CtaFinal
         titulo="Seu sorriso merece um tratamento que considera você por completo."

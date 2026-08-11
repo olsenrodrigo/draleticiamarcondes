@@ -1,5 +1,6 @@
 import { Pagina } from "@/components/Layout";
 import { DadosContato, GradeTratamentos, SecaoContato, Surge, TopoPagina } from "@/components/Secoes";
+import { FichaClinica, PerguntasDaPagina, RespostaDireta, SecoesGeo } from "@/components/Geo";
 import { IconeWhatsapp } from "@/components/Icones";
 import { agendarUrl } from "@/content/site";
 import { indaiatuba } from "@/content/pages";
@@ -19,6 +20,7 @@ export default function Indaiatuba() {
         <p className="assinatura" style={{ marginTop: 22 }}>
           {indaiatuba.intro}
         </p>
+        <RespostaDireta path={indaiatuba.path} />
       </TopoPagina>
 
       <section className="secao fundo-nuvem">
@@ -55,10 +57,17 @@ export default function Indaiatuba() {
                   <IconeWhatsapp /> {indaiatuba.cta}
                 </a>
               </div>
+              {/* Os mesmos dados em formato tabular: é assim que um motor
+                  generativo extrai endereço e horário sem interpretar prosa. */}
+              <FichaClinica />
             </div>
           </div>
         </div>
       </section>
+
+      <SecoesGeo path={indaiatuba.path} fundo="fundo-nuvem" />
+
+      <PerguntasDaPagina path={indaiatuba.path} fundo="fundo-branco" />
 
       <section className="secao fundo-nuvem">
         <div className="wrap">

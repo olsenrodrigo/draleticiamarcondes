@@ -62,17 +62,31 @@ export type AlvoDaRota = {
   secundarias: string[];
 };
 
-/** Uma palavra-chave primária por rota — sem canibalizar entre páginas. */
+/**
+ * Uma palavra-chave primária por rota — sem canibalizar entre páginas.
+ *
+ * Os quatro alvos prioritários da clínica têm dono exclusivo:
+ *   odontologia Indaiatuba        -> /                        (a clínica como entidade)
+ *   dentista Indaiatuba           -> /dentista-em-indaiatuba   (busca local, "perto de mim")
+ *   reabilitação oral Indaiatuba  -> /reabilitacao-oral        (página-pilar)
+ *   odontologia estética Indaiatuba -> /odontologia-estetica   (página de serviço)
+ *
+ * Antes, "/" e "/dentista-em-indaiatuba" declaravam a MESMA primária — as duas
+ * páginas competiam entre si pelo mesmo termo e o Google escolhia sozinho qual
+ * mostrar (normalmente a errada). Termo repetido entre rotas aqui é bug, não estilo.
+ */
 export const alvosPorRota: AlvoDaRota[] = [
   {
     path: "/",
-    primaria: "dentista em Indaiatuba",
+    primaria: "odontologia Indaiatuba",
     secundarias: [
+      "odontologia em Indaiatuba",
       "clínica odontológica Indaiatuba",
-      "odontologia Indaiatuba",
+      "clínica odontológica em Indaiatuba",
+      "consultório odontológico Indaiatuba",
+      "clínica odontológica particular Indaiatuba",
       "Lemarc Odontologia",
-      "reabilitação oral Indaiatuba",
-      "odontologia estética Indaiatuba",
+      "Lemarc Odontologia Indaiatuba",
     ],
   },
   {
@@ -89,10 +103,14 @@ export const alvosPorRota: AlvoDaRota[] = [
     path: "/reabilitacao-oral",
     primaria: "reabilitação oral Indaiatuba",
     secundarias: [
+      "reabilitação oral em Indaiatuba",
       "reabilitação oral interior de São Paulo",
       "reabilitação bucal Indaiatuba",
+      "reabilitação oral completa",
+      "dentista especialista em reabilitação oral Indaiatuba",
       "recuperar dentes perdidos Indaiatuba",
       "planejamento odontológico completo Indaiatuba",
+      "reabilitação oral sobre implantes Indaiatuba",
     ],
   },
   {
@@ -159,9 +177,13 @@ export const alvosPorRota: AlvoDaRota[] = [
     path: "/odontologia-estetica",
     primaria: "odontologia estética Indaiatuba",
     secundarias: [
+      "odontologia estética em Indaiatuba",
       "estética dental Indaiatuba",
+      "clínica de estética dental Indaiatuba",
       "harmonização do sorriso Indaiatuba",
       "dentista estético Indaiatuba",
+      "transformação do sorriso Indaiatuba",
+      "dentista especialista em estética Indaiatuba",
     ],
   },
   {
@@ -176,12 +198,14 @@ export const alvosPorRota: AlvoDaRota[] = [
   },
   {
     path: "/dentista-em-indaiatuba",
-    primaria: "dentista em Indaiatuba",
+    primaria: "dentista Indaiatuba",
     secundarias: [
-      ...termosDeBairro,
-      "clínica odontológica particular Indaiatuba",
+      "dentista em Indaiatuba",
+      "dentista em Indaiatuba SP",
+      "dentista perto de mim Indaiatuba",
       "dentista Indaiatuba e região",
-      "odontologia Indaiatuba",
+      "dentista particular Indaiatuba",
+      ...termosDeBairro,
     ],
   },
   {
@@ -213,7 +237,53 @@ export const chavesDaRota = (path: string) => {
   return alvo ? [alvo.primaria, ...alvo.secundarias] : [];
 };
 
-/** Conjunto sem repetição, usado no `knowsAbout` da entidade da clínica. */
+/** Conjunto sem repetição — vai para a propriedade `keywords` do schema. */
 export const todasAsChaves = Array.from(
   new Set(alvosPorRota.flatMap((a) => [a.primaria, ...a.secundarias]).concat(termosRegionais)),
 );
+
+/**
+ * Assuntos que a clínica domina, como TEMAS — não como frases de busca.
+ *
+ * `knowsAbout` do schema.org espera entidade/tópico ("Reabilitação oral"), não
+ * palavra-chave geolocalizada ("reabilitação oral Indaiatuba"). Despejar a lista
+ * de keywords ali é keyword stuffing em JSON-LD: o Google ignora e, no limite,
+ * desconfia. As keywords continuam existindo — só que na propriedade certa.
+ */
+export const topicosDaClinica = [
+  "Reabilitação oral",
+  "Implantodontia",
+  "Prótese dentária",
+  "Odontologia estética",
+  "Dentística",
+  "Facetas e lentes de contato dental",
+  "Clareamento dental",
+  "Endodontia",
+  "Ortodontia",
+  "Alinhadores transparentes",
+  "Cirurgia oral menor",
+  "Diagnóstico odontológico",
+  "Planejamento odontológico",
+];
+
+/**
+ * Trava contra canibalização: duas rotas não podem declarar o mesmo termo.
+ *
+ * Roda no import, então quebra o build (e o `npm run dev`) em vez de deixar o
+ * erro chegar silencioso ao Google — que foi exatamente o que aconteceu quando
+ * "/" e "/dentista-em-indaiatuba" disputavam "dentista em Indaiatuba".
+ */
+const donoDoTermo = new Map<string, string>();
+for (const alvo of alvosPorRota) {
+  for (const termo of [alvo.primaria, ...alvo.secundarias]) {
+    const chave = termo.toLowerCase();
+    const dono = donoDoTermo.get(chave);
+    if (dono && dono !== alvo.path) {
+      throw new Error(
+        `Canibalização de palavra-chave: "${termo}" está declarado em ${dono} e em ${alvo.path}. ` +
+          `Cada termo deve ter uma rota dona só.`,
+      );
+    }
+    donoDoTermo.set(chave, alvo.path);
+  }
+}

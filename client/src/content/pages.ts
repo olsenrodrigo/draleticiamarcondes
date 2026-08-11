@@ -24,9 +24,15 @@ export const home = {
   ],
   chamadaFinal: "Seu sorriso merece um tratamento que considera você por completo.",
   meta: {
-    title: "Lemarc Odontologia | Dentista em Indaiatuba | Reabilitação Oral",
+    // ALTERADO em 11/08/2026 (ajuste de SEO — confirmar com a clínica).
+    // Original do documento: "Lemarc Odontologia | Dentista em Indaiatuba | Reabilitação Oral".
+    // O termo "dentista em Indaiatuba" passou a ser exclusivo de
+    // /dentista-em-indaiatuba; as duas páginas competiam pelo mesmo termo. A home
+    // abre com a marca porque a busca por "lemarc odontologia" também precisa
+    // cair aqui, e assume "clínica odontológica em Indaiatuba" como alvo.
+    title: "Lemarc Odontologia | Clínica Odontológica em Indaiatuba/SP",
     description:
-      "Clínica odontológica em Indaiatuba especializada em reabilitação oral, implantes dentários e odontologia estética. Recupere seu sorriso com planejamento personalizado.",
+      "Clínica odontológica em Indaiatuba/SP especializada em reabilitação oral, implantes dentários e odontologia estética. Avaliação e planejamento com a Dra. Letícia Marcondes (CRO-SP 139458).",
   } satisfies Meta,
 };
 
