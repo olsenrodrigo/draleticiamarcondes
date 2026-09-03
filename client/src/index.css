@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Karla:wght@400;500;600;700&display=swap');
+/* As fontes vêm por <link> em client/index.html: dentro do CSS elas viravam
+   uma cascata (baixa o CSS -> descobre o @import -> baixa a fonte), que atrasa
+   a primeira pintura e derruba o LCP no celular. */
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------- tokens -- */
@@ -243,21 +245,31 @@ strong { color: var(--azul-800); font-weight: 600; }
 .aviso-pilar p { margin: 0; max-width: 52ch; font-size: .95rem; }
 
 /* -------------------------------------------------------------- acordeao */
+/* `<details>` nativo: a resposta está sempre no HTML (ver Acordeao em Secoes.tsx). */
 .acordeao-item { border-top: 1px solid var(--linha-forte); }
 .acordeao-item:last-child { border-bottom: 1px solid var(--linha-forte); }
 .acordeao-gatilho {
   width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px;
   padding: 26px 0; border: 0; background: none; cursor: pointer; text-align: left;
   font: 500 1.16rem/1.35 var(--serif); color: var(--azul-900);
+  list-style: none; /* tira o triângulo padrão do <summary> */
 }
+.acordeao-gatilho::-webkit-details-marker { display: none; }
+.acordeao-gatilho:focus-visible { outline: 2px solid var(--azul-600); outline-offset: 4px; }
 .acordeao-gatilho svg { width: 19px; flex: none; color: var(--azul-600); transition: transform .25s ease; }
-.acordeao-gatilho[data-state="open"] svg { transform: rotate(180deg); }
-.acordeao-conteudo { overflow: hidden; }
-.acordeao-conteudo[data-state="open"] { animation: abre .26s ease-out; }
-.acordeao-conteudo[data-state="closed"] { animation: fecha .2s ease-in; }
+.acordeao-item[open] > .acordeao-gatilho svg { transform: rotate(180deg); }
 .acordeao-conteudo p { margin: 0; padding: 0 48px 28px 0; }
-@keyframes abre { from { height: 0 } to { height: var(--radix-accordion-content-height) } }
-@keyframes fecha { from { height: var(--radix-accordion-content-height) } to { height: 0 } }
+
+/* Abertura animada onde o navegador suporta; onde não, abre seco — o conteúdo
+   é o mesmo nos dois casos, então nada depende da animação. */
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  .acordeao-item::details-content {
+    height: 0; overflow: hidden;
+    transition: height .26s ease-out, content-visibility .26s allow-discrete;
+  }
+  .acordeao-item[open]::details-content { height: auto; }
+}
 
 /* -------------------------------------------------------------- contato */
 .grade-contato { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); gap: clamp(36px, 5vw, 72px); align-items: start; }

@@ -17,7 +17,10 @@ export default function Faq() {
 
       <section className="secao fundo-nuvem">
         <div className="wrap-estreito">
-          <Acordeao itens={faq.itens} />
+          {/* Abertas por padrão: esta página existe para ser lida (e citada)
+              por inteiro, então esconder a resposta atrás de um clique só
+              atrapalha — tanto o leitor quanto quem extrai o texto. */}
+          <Acordeao itens={faq.itens} todosAbertos />
         </div>
       </section>
 

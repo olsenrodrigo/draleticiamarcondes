@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Link } from "wouter";
 import useEmblaCarousel from "embla-carousel-react";
-import * as Accordion from "@radix-ui/react-accordion";
 import { z } from "zod";
 import { MarcaLemarc, MarcaLemarcContorno } from "@/components/Brand";
 import {
@@ -220,23 +219,42 @@ export function AvisoPilar() {
 
 /* ----------------------------------------------------------------- FAQ --- */
 
-export function Acordeao({ itens }: { itens: { pergunta: string; resposta: string }[] }) {
+/**
+ * Acordeão em `<details>/<summary>` nativo — de propósito, e não com o
+ * Accordion do Radix.
+ *
+ * O Radix desmonta o conteúdo fechado: a resposta simplesmente não existe no
+ * HTML até alguém clicar. Como GPTBot, ClaudeBot, PerplexityBot e o crawler de
+ * IA do Google não clicam em nada, todas as respostas do site ficavam invisíveis
+ * para eles — justo o par pergunta/resposta que motores generativos mais citam.
+ *
+ * Com `<details>` o texto está sempre no HTML entregue pelo servidor, funciona
+ * sem JavaScript e continua acessível por teclado sem nenhum ARIA manual.
+ *
+ * `todosAbertos` deixa as respostas à vista já na primeira pintura: usado na
+ * página de perguntas frequentes, cuja função é justamente ser lida inteira.
+ */
+export function Acordeao({
+  itens,
+  todosAbertos = false,
+}: {
+  itens: { pergunta: string; resposta: string }[];
+  todosAbertos?: boolean;
+}) {
   return (
-    <Accordion.Root type="single" collapsible>
+    <div className="acordeao">
       {itens.map((item) => (
-        <Accordion.Item className="acordeao-item" value={item.pergunta} key={item.pergunta}>
-          <Accordion.Header>
-            <Accordion.Trigger className="acordeao-gatilho">
-              {item.pergunta}
-              <IconeChevron />
-            </Accordion.Trigger>
-          </Accordion.Header>
-          <Accordion.Content className="acordeao-conteudo">
+        <details className="acordeao-item" key={item.pergunta} open={todosAbertos}>
+          <summary className="acordeao-gatilho">
+            <span>{item.pergunta}</span>
+            <IconeChevron />
+          </summary>
+          <div className="acordeao-conteudo">
             <p>{item.resposta}</p>
-          </Accordion.Content>
-        </Accordion.Item>
+          </div>
+        </details>
       ))}
-    </Accordion.Root>
+    </div>
   );
 }
 

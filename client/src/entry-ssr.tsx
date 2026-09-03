@@ -65,6 +65,24 @@ export const caminhos = rotas.map((r) => r.path);
 export const origem = site.origin;
 
 /**
+ * Todas as respostas que precisam existir como texto no HTML de cada rota.
+ *
+ * Serve de gabarito para a conferência do build (`script/prerender.ts`): se um
+ * componente voltar a esconder a resposta atrás de JavaScript — como fazia o
+ * acordeão do Radix, que desmontava o conteúdo fechado — o build quebra em vez
+ * de publicar em silêncio uma página vazia para os buscadores.
+ */
+export const respostasPorRota: Record<string, string[]> = Object.fromEntries(
+  rotas.map((r) => [
+    r.path,
+    [
+      ...(r.path === faq.path ? faq.itens : []),
+      ...(geoDaRota(r.path)?.faq ?? []),
+    ].map((item) => item.resposta),
+  ]),
+);
+
+/**
  * `llms.txt` — convenção emergente: um resumo em markdown, sem navegação nem
  * script, que motores generativos conseguem ler direto. Aqui ele é montado a
  * partir do mesmo conteúdo do site, então nunca descola da copy aprovada.

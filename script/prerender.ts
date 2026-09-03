@@ -48,13 +48,14 @@ export async function gerar() {
   console.log("pre-renderizando rotas...");
   await bundleSsr();
 
-  const { renderizarRota, caminhos, origem, llmsTxt } = (await import(
+  const { renderizarRota, caminhos, origem, llmsTxt, respostasPorRota } = (await import(
     path.join(TEMP, "entry-ssr.mjs")
   )) as {
     renderizarRota: (p: string) => { corpo: string; cabeca: string };
     caminhos: string[];
     origem: string;
     llmsTxt: string;
+    respostasPorRota: Record<string, string[]>;
   };
 
   const molde = await readFile(path.join(PUBLICO, "index.html"), "utf-8");
@@ -83,10 +84,73 @@ export async function gerar() {
     console.log(`  ${rota} -> ${path.relative(PUBLICO, destino)}`);
   }
 
+  await conferirRespostas(caminhos, respostasPorRota);
   await gerarSitemap(caminhos, origem);
   await writeFile(path.join(PUBLICO, "llms.txt"), llmsTxt, "utf-8");
   await rm(TEMP, { recursive: true, force: true });
   console.log(`pre-renderizadas ${caminhos.length} rotas + sitemap.xml + llms.txt`);
+}
+
+/** Texto visível de um HTML, sem script/style e sem as tags. */
+const textoVisivel = (html: string) =>
+  html
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<style[\s\S]*?<\/style>/gi, "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, " ");
+
+/**
+ * Trava de regressão: toda resposta de FAQ tem de estar como texto no HTML.
+ *
+ * Existiu de verdade — o acordeão do Radix desmontava o conteúdo fechado, e o
+ * site publicou 53 pares pergunta/resposta (~2.400 palavras) que nenhum crawler
+ * enxergava: para GPTBot, ClaudeBot, PerplexityBot e o crawler de IA do Google
+ * as páginas só tinham as perguntas. O JSON-LD escondia o estrago, porque o
+ * FAQPage continuava correto enquanto a página visível estava vazia.
+ *
+ * Comparar o texto renderizado com o conteúdo de origem é o que impede isso de
+ * voltar sem ninguém perceber. Falhar o build é proposital: publicar a versão
+ * quebrada custa semanas de indexação.
+ */
+async function conferirRespostas(
+  caminhos: string[],
+  respostasPorRota: Record<string, string[]>,
+) {
+  const faltando: string[] = [];
+  let conferidas = 0;
+
+  for (const rota of caminhos) {
+    const esperadas = respostasPorRota[rota] ?? [];
+    if (!esperadas.length) continue;
+
+    const html = await readFile(path.join(PUBLICO, arquivoDaRota(rota)), "utf-8");
+    const texto = textoVisivel(html);
+
+    for (const resposta of esperadas) {
+      conferidas++;
+      // compara pelo começo: basta para detectar conteúdo ausente e não quebra
+      // por diferença de espaço ou pontuação no meio de um parágrafo longo
+      const trecho = resposta.replace(/\s+/g, " ").slice(0, 60);
+      if (!texto.includes(trecho)) faltando.push(`${rota} -> "${trecho}..."`);
+    }
+  }
+
+  if (faltando.length) {
+    throw new Error(
+      `${faltando.length} de ${conferidas} respostas de FAQ nao estao no HTML ` +
+        `pre-renderizado. Elas ficam invisiveis para buscadores e para motores ` +
+        `de IA. Provavel causa: um componente que so renderiza o conteudo apos ` +
+        `interacao do usuario.\n  ${faltando.join("\n  ")}`,
+    );
+  }
+
+  console.log(`  ${conferidas} respostas de FAQ conferidas no HTML`);
 }
 
 async function gerarSitemap(caminhos: string[], origem: string) {

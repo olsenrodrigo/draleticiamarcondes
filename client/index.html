@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#26313d" />
 
+    <!--
+      Sem `max-image-preview:large` o Google usa miniatura pequena (ou nenhuma)
+      nos resultados e no Discover; `max-snippet:-1` libera o tamanho do trecho
+      citado. Os dois valem para as visões geradas por IA, que montam a resposta
+      a partir desse trecho.
+    -->
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+
     <title>Lemarc Odontologia | Clínica Odontológica em Indaiatuba/SP</title>
     <meta
       name="description"
@@ -36,6 +47,10 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Karla:wght@400;500;600;700&display=swap"
+    />
   </head>
   <body>
     <div id="root"></div>
