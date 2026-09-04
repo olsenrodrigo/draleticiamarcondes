@@ -4,24 +4,35 @@
 **GEO** (*Generative Engine Optimization*) = ser citado nas respostas do ChatGPT, Claude,
 Perplexity, Gemini e da visão geral de IA do Google.
 
-## ⚠️ O gargalo hoje não é ranqueamento — é indexação
+## ⚠️ O gargalo é conexão, não indexação
 
-Verificado em **11/08/2026**: `site:lemarcodontologia.com.br` devolve **zero páginas**.
-O site não está no índice do Google. Nenhum ajuste de conteúdo produz efeito enquanto
-isso não mudar, porque não há o que ranquear.
+> Corrigido em **04/09/2026**. Até aqui este documento dizia que o site não estava no
+> índice do Google. **Estava errado** — a checagem original foi feita com o operador
+> `site:` numa busca comum, que é notoriamente incompleto. O Search Console, que é a
+> fonte de verdade, mostra outra coisa.
 
-O site em si está tecnicamente correto (HTTPS 200, HTML pré-renderizado, sem `noindex`,
-robots/sitemap/llms respondendo 200). O que falta é **descoberta**: domínio novo, sem
-nenhum link externo apontando para ele. O Google não visita o que ninguém cita.
+Estado real, lido no Search Console em 04/09/2026:
 
-Ordem de execução — os três primeiros são o que destrava:
+- **12 páginas indexadas**, rastreadas entre 13 e 27/08.
+- **Zero** páginas em "Rastreada, mas não indexada" — nenhuma foi rejeitada por qualidade.
+- As 8 "não indexadas" são variantes `www` sendo consolidadas — comportamento correto.
+- O site recebeu **5 cliques** de busca no último mês. Pouco, mas não é zero.
+- Sitemap enviado e **processado**, 14 páginas encontradas.
+- As 14 URLs foram enviadas para rastreamento prioritário em 03 e 04/09, depois da
+  correção do acordeão — o índice ainda guarda a versão sem as respostas de FAQ.
+
+Então o problema nunca foi o Google não achar o site. É que **o site está desconectado do
+ativo que a clínica realmente tem**: um Perfil da Empresa com 5,0 ★ e 91 avaliações que
+aponta para um Linktree em vez de apontar para o domínio. Ver a seção do Perfil, abaixo.
+
+Ordem de execução — o item 4 é o de maior retorno:
 
 | # | Ação | Onde | Status |
 |---|---|---|---|
 | 1 | Verificar o domínio no Search Console | registro TXT no DNS | ✅ feito em 11/08/2026 |
-| 2 | Enviar `sitemap.xml` e pedir indexação da home | Search Console | pendente |
+| 2 | Enviar `sitemap.xml` e pedir reindexação das 14 URLs | Search Console | ✅ feito em 03–04/09/2026 |
 | 3 | Primeiro link externo real: **site na bio do Instagram** (hoje o Linktree não aponta para ele) e no Facebook | plataformas | pendente |
-| 4 | Criar o Perfil da Empresa no Google | Google Business | pendente |
+| 4 | ~~Criar~~ **corrigir** o Perfil da Empresa: o campo "site" aponta para o Linktree | Google Business | **pendente — maior impacto** |
 | 5 | 301 de `www` para não-www | Nginx da VPS | ✅ conferido em 03/09/2026 |
 | 6 | Corrigir divergência de NAP (ver abaixo) | Facebook/diretórios | pendente |
 | 7 | Compressão e cache dos assets no Nginx (ver "Na VPS") | Nginx da VPS | pendente |
@@ -123,10 +134,9 @@ Servir o app com `npm start` (Express) atrás do Nginx, **sem** reescrever tudo 
 
 Aqui está o maior ganho de SEO local para uma clínica, e não é código nem servidor:
 
-- **Perfil da Empresa no Google** (antigo Google Meu Negócio). É o que faz a clínica
-  aparecer no mapa e no "perto de mim". Precisa de: categoria "Dentista", endereço,
-  horários nos dois turnos, telefone, fotos e **avaliações de pacientes**.
-  Ao criar, pegar o pin exato e substituir as coordenadas em `lib/seo.ts` (ver abaixo).
+- **Perfil da Empresa no Google** — **já existe, com 5,0 ★ e 91 avaliações.** Não criar
+  outro: perfil duplicado divide avaliações. O que falta é corrigir o campo "site", que
+  aponta para o Linktree. Ver a seção própria mais abaixo.
 - **Google Search Console** e **Bing Webmaster Tools**: enviar o sitemap e acompanhar
   indexação.
 - **NAP consistente** (nome, endereço, telefone escritos exatamente igual) no site, no
@@ -154,6 +164,76 @@ o serviço busca esse arquivo para confirmar que quem avisou controla o domínio
 confere isso antes de enviar e falha com mensagem clara se o deploy ainda não subiu.
 
 **Rodar a cada publicação.** O Google não usa IndexNow: lá o caminho é o Search Console.
+
+## O Perfil da Empresa já existe — e aponta para o lugar errado (04/09/2026)
+
+Durante meses o plano dizia "criar o Perfil da Empresa no Google". **Ele já existe**,
+está reivindicado e é o ativo mais forte da clínica:
+
+| | |
+|---|---|
+| Nome | Lemarc Odontologia |
+| Nota | **5,0 ★ com 91 avaliações** |
+| Categoria | Clínica odontológica |
+| Endereço | R. Cinco de Julho, 697 — **Centro**, Indaiatuba/SP, 13330-220 |
+| Telefone | (19) 3894-5273 ✅ confere com o site |
+| **Site** | **`linktr.ee`** ❌ |
+| Ficha | `https://maps.google.com/?cid=13027717339812848473` |
+
+**O campo "site" do Perfil aponta para o Linktree, não para lemarcodontologia.com.br.**
+
+Isso é, muito provavelmente, a explicação principal para o domínio não ter autoridade.
+O Perfil é a citação local mais confiável que a clínica possui — e ela não aponta para o
+site. Toda a reputação de 91 avaliações fica represada numa página de links.
+
+Não crie um Perfil novo: **perfil duplicado divide avaliações e o Google acaba suprimindo
+um dos dois.** O caminho é corrigir o que existe.
+
+### Divergências entre o site e o Perfil, encontradas na conferência
+
+| Campo | Site (antes) | Perfil / Correios | Situação |
+|---|---|---|---|
+| Coordenadas | −23,0859 / −47,2179 | −23,0892 / −47,2200 | ✅ corrigido — estava **422 m** fora |
+| `hasMap` | busca no Maps | ficha da clínica | ✅ corrigido |
+| `sameAs` | só Instagram | + ficha do Maps | ✅ corrigido — liga as duas entidades |
+| Bairro | Jardim Pau Preto | **Centro** (Perfil **e** Correios) | ⏳ aguarda confirmação da clínica |
+| Horário | seg–sex 9–12 e 14–18 | fecha 19h, abre sáb. 8h | ⏳ aguarda confirmação da clínica |
+
+O CEP 13330-220 resolve como **"Rua Cinco de Julho, Centro"** na base dos Correios
+(BrasilAPI), e o Perfil também diz Centro. O site é a única fonte que diz "Jardim Pau
+Preto" — provavelmente ele é que está errado, mas isso é fato da clínica, não decisão
+técnica.
+
+### O que fazer dentro do Perfil (por ordem de impacto)
+
+1. **Trocar o site de `linktr.ee` para `https://lemarcodontologia.com.br`.** É a mudança
+   de maior retorno do projeto inteiro, e leva trinta segundos.
+2. Conferir se o horário publicado é o real (o do site diverge).
+3. Preencher **Serviços** com os tratamentos das páginas do site — cada um vira um termo
+   que a ficha passa a responder.
+4. Publicar fotos pelo perfil (as do ensaio já estão no repositório).
+5. Responder as avaliações. Perfil que responde recebe mais peso que perfil silencioso.
+
+Não mexa no **nome**: concorrentes locais usam "Fulano — Dentista Indaiatuba" para enfiar
+a palavra-chave, mas isso viola as diretrizes do Google e dá suspensão. O lugar certo da
+palavra-chave é a **categoria** e o campo **Serviços**.
+
+### O pacote local de Indaiatuba (quem a clínica enfrenta)
+
+Do próprio Maps, em "Lugares também pesquisados":
+
+| Concorrente | Nota | Avaliações |
+|---|---|---|
+| Odontoclinic Indaiatuba | 4,9 | **604** |
+| Dra Karina Eccel | 5,0 | 154 |
+| Odonto Freitas — Centro | 5,0 | 62 |
+| **Lemarc Odontologia** | **5,0** | **91** |
+| Dra. Márcia Maria | 5,0 | 40 |
+| Dra. Raissa Lopes | 5,0 | 27 |
+
+A Lemarc é a **segunda em volume de avaliações** entre as clínicas independentes e empata
+em nota com todas. Ela não está fora da disputa — está bem posicionada e desconectada do
+próprio site.
 
 ## O acordeão invisível — corrigido em 03/09/2026
 

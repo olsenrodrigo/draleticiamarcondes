@@ -26,8 +26,10 @@ export const site = {
     state: "SP",
     zip: "13330-220",
     full: "Rua 5 de Julho, 697 – Sala 2, Jardim Pau Preto – Indaiatuba/SP – CEP 13330-220",
-    mapsUrl:
-      "https://www.google.com/maps/search/?api=1&query=Rua+Cinco+de+Julho%2C+697+-+Sala+2+-+Jardim+Pau+Preto%2C+Indaiatuba+-+SP%2C+13330-220",
+    // Aponta para a ficha da clínica no Maps (`?cid=`), e não para uma busca por
+    // endereço: quem clica cai no cartão com as 91 avaliações 5,0 — que é o
+    // ativo mais forte da clínica — em vez de numa lista de resultados.
+    mapsUrl: "https://maps.google.com/?cid=13027717339812848473",
   },
   hours: "Segunda a sexta-feira, das 9h às 12h e das 14h às 18h",
 

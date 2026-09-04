@@ -78,12 +78,25 @@ export function useSeo(dados: Meta & { path: string; jsonLd?: unknown }) {
 /* ------------------------------------------------------------------ dados -- */
 
 /**
- * Coordenadas do trecho da Rua Cinco de Julho no Jardim Pau Preto / Centro
- * (OpenStreetMap; o CEP 13330-220 resolve para "Centro" na base dos Correios).
- * É precisão de RUA, não de porta.
- * TODO: substituir pelo pin exato do Perfil da Empresa no Google quando existir.
+ * Pin exato do Perfil da Empresa no Google, conferido em 04/09/2026.
+ *
+ * As coordenadas anteriores vinham do OpenStreetMap e tinham precisão de rua —
+ * caíam **422 metros** fora da porta. Em busca local isso não é detalhe: a
+ * distância até quem procura é critério de ordenação, e coordenada divergente
+ * entre o site e o Perfil enfraquece a associação entre as duas entidades.
  */
-export const coordenadas = { latitude: -23.0859283, longitude: -47.2179317 };
+export const coordenadas = { latitude: -23.0892152, longitude: -47.2199804 };
+
+/**
+ * O Perfil da Empresa no Google da clínica (5,0 ★ / 91 avaliações).
+ *
+ * Entra no `sameAs` da clínica: é o que diz ao Google, sem ambiguidade, que o
+ * site e aquela ficha do Maps são a mesma entidade. Sem isso as duas vivem
+ * separadas — a ficha ranqueia no mapa, o site não herda nada da reputação dela.
+ *
+ * A forma `?cid=` é a estável: não depende de nome nem de coordenada na URL.
+ */
+export const perfilGoogle = "https://maps.google.com/?cid=13027717339812848473";
 
 /** Um único @id para a clínica em todas as páginas — consolida a entidade. */
 const ID_CLINICA = `${site.origin}/#clinica`;
@@ -182,7 +195,7 @@ export const dentistSchema = {
   employee: { "@id": ID_PESSOA },
   address: enderecoPostal,
   geo: { "@type": "GeoCoordinates", ...coordenadas },
-  hasMap: site.address.mapsUrl,
+  hasMap: perfilGoogle,
   areaServed: cidadesAtendidas.map((cidade) => ({
     "@type": "City",
     name: cidade,
@@ -194,7 +207,7 @@ export const dentistSchema = {
   // é o erro mais comum de JSON-LD em site de clínica.
   knowsAbout: topicosDaClinica,
   keywords: todasAsChaves.join(", "),
-  sameAs: [site.instagram],
+  sameAs: [perfilGoogle, site.instagram],
   medicalSpecialty: [
     "Reabilitação Oral",
     "Implantes Dentários",
