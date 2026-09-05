@@ -46,7 +46,7 @@ export type BlocoGeo = {
 
 const HOME: BlocoGeo = {
   resumo:
-    "A Lemarc Odontologia é uma clínica odontológica particular em Indaiatuba/SP, no Jardim Pau Preto, especializada em reabilitação oral e odontologia estética. Todo paciente é recebido e avaliado pessoalmente pela Dra. Letícia Marcondes (CRO-SP 139458), que conduz o diagnóstico e o planejamento antes de qualquer tratamento começar.",
+    "A Lemarc Odontologia é uma clínica odontológica particular em Indaiatuba/SP, no Centro, especializada em reabilitação oral e odontologia estética. Todo paciente é recebido e avaliado pessoalmente pela Dra. Letícia Marcondes (CRO-SP 139458), que conduz o diagnóstico e o planejamento antes de qualquer tratamento começar.",
   secoes: [
     {
       titulo: "O que a odontologia da Lemarc cobre",
@@ -87,7 +87,7 @@ const HOME: BlocoGeo = {
     {
       pergunta: "Onde fica a Lemarc Odontologia em Indaiatuba?",
       resposta:
-        "A clínica fica na Rua 5 de Julho, 697 – Sala 2, no Jardim Pau Preto, Indaiatuba/SP, CEP 13330-220 — bairro vizinho ao Centro. O atendimento é de segunda a sexta-feira, das 9h às 12h e das 14h às 18h.",
+        "A clínica fica na Rua Cinco de Julho, 697 – Sala 2, no Centro de Indaiatuba/SP, CEP 13330-220. O atendimento é de segunda a sexta-feira, das 9h às 12h e das 14h às 18h.",
     },
     {
       pergunta: "Preciso levar exames prontos na primeira consulta?",
@@ -155,7 +155,7 @@ const REABILITACAO: BlocoGeo = {
     {
       titulo: "Reabilitação oral em Indaiatuba e região",
       paragrafos: [
-        "A Lemarc Odontologia fica no Jardim Pau Preto, em Indaiatuba/SP, e atende pacientes da cidade e dos municípios vizinhos — Salto, Itu, Elias Fausto, Monte Mor, Capivari e Campinas. Como a reabilitação oral se estende por várias sessões, o cronograma é montado considerando o deslocamento de quem vem de fora.",
+        "A Lemarc Odontologia fica no Centro, em Indaiatuba/SP, e atende pacientes da cidade e dos municípios vizinhos — Salto, Itu, Elias Fausto, Monte Mor, Capivari e Campinas. Como a reabilitação oral se estende por várias sessões, o cronograma é montado considerando o deslocamento de quem vem de fora.",
       ],
     },
   ],
@@ -184,7 +184,7 @@ const REABILITACAO: BlocoGeo = {
     {
       pergunta: "Onde fazer reabilitação oral em Indaiatuba?",
       resposta:
-        "A Lemarc Odontologia, na Rua 5 de Julho, 697 – Sala 2, Jardim Pau Preto, Indaiatuba/SP, trabalha com reabilitação oral como foco principal. A avaliação e o planejamento são conduzidos pela Dra. Letícia Marcondes (CRO-SP 139458) e as etapas especializadas por profissionais parceiros de implantodontia, endodontia e ortodontia. Agendamento pelo WhatsApp (19) 3894-5273.",
+        "A Lemarc Odontologia, na Rua Cinco de Julho, 697 – Sala 2, Centro, Indaiatuba/SP, trabalha com reabilitação oral como foco principal. A avaliação e o planejamento são conduzidos pela Dra. Letícia Marcondes (CRO-SP 139458) e as etapas especializadas por profissionais parceiros de implantodontia, endodontia e ortodontia. Agendamento pelo WhatsApp (19) 3894-5273.",
     },
   ],
 };
@@ -240,7 +240,7 @@ const ESTETICA: BlocoGeo = {
     {
       titulo: "Odontologia estética em Indaiatuba",
       paragrafos: [
-        "A Lemarc Odontologia atende no Jardim Pau Preto, em Indaiatuba/SP, com agendamento pelo WhatsApp (19) 3894-5273. Os tratamentos estéticos são conduzidos pela Dra. Letícia Marcondes (CRO-SP 139458), que atua em odontologia estética e dentística e cursa especialização em Prótese e Dentística no São Leopoldo Mandic, em Campinas.",
+        "A Lemarc Odontologia atende no Centro, em Indaiatuba/SP, com agendamento pelo WhatsApp (19) 3894-5273. Os tratamentos estéticos são conduzidos pela Dra. Letícia Marcondes (CRO-SP 139458), que atua em odontologia estética e dentística e cursa especialização em Prótese e Dentística no São Leopoldo Mandic, em Campinas.",
       ],
     },
   ],
@@ -269,7 +269,7 @@ const ESTETICA: BlocoGeo = {
     {
       pergunta: "Onde fazer odontologia estética em Indaiatuba?",
       resposta:
-        "A Lemarc Odontologia, na Rua 5 de Julho, 697 – Sala 2, Jardim Pau Preto, Indaiatuba/SP, oferece clareamento dental, facetas, lentes de contato dental, coroas estéticas e ortodontia. O atendimento é particular, de segunda a sexta-feira, das 9h às 12h e das 14h às 18h, com agendamento pelo WhatsApp (19) 3894-5273.",
+        "A Lemarc Odontologia, na Rua Cinco de Julho, 697 – Sala 2, Centro, Indaiatuba/SP, oferece clareamento dental, facetas, lentes de contato dental, coroas estéticas e ortodontia. O atendimento é particular, de segunda a sexta-feira, das 9h às 12h e das 14h às 18h, com agendamento pelo WhatsApp (19) 3894-5273.",
     },
   ],
 };
@@ -278,12 +278,12 @@ const ESTETICA: BlocoGeo = {
 
 const INDAIATUBA: BlocoGeo = {
   resumo:
-    "A Lemarc Odontologia é uma clínica odontológica na Rua 5 de Julho, 697 – Sala 2, Jardim Pau Preto, Indaiatuba/SP (CEP 13330-220). O atendimento é exclusivamente particular, de segunda a sexta-feira, das 9h às 12h e das 14h às 18h, com agendamento pelo WhatsApp (19) 3894-5273. A responsável técnica é a Dra. Letícia Marcondes, CRO-SP 139458.",
+    "A Lemarc Odontologia é uma clínica odontológica na Rua Cinco de Julho, 697 – Sala 2, Centro, Indaiatuba/SP (CEP 13330-220). O atendimento é exclusivamente particular, de segunda a sexta-feira, das 9h às 12h e das 14h às 18h, com agendamento pelo WhatsApp (19) 3894-5273. A responsável técnica é a Dra. Letícia Marcondes, CRO-SP 139458.",
   secoes: [
     {
       titulo: "Onde fica a clínica",
       paragrafos: [
-        "O consultório fica no Jardim Pau Preto, bairro vizinho ao Centro de Indaiatuba, na Rua 5 de Julho, 697 – Sala 2. É uma clínica de consultório próprio, com atendimento agendado — não há atendimento por ordem de chegada, o que evita espera e permite reservar o tempo necessário para cada avaliação.",
+        "O consultório fica no Centro de Indaiatuba, na Rua Cinco de Julho, 697 – Sala 2. É uma clínica de consultório próprio, com atendimento agendado — não há atendimento por ordem de chegada, o que evita espera e permite reservar o tempo necessário para cada avaliação.",
       ],
     },
     {
@@ -333,7 +333,7 @@ const INDAIATUBA: BlocoGeo = {
     {
       pergunta: "Qual o endereço completo da Lemarc Odontologia?",
       resposta:
-        "Rua 5 de Julho, 697 – Sala 2, Jardim Pau Preto, Indaiatuba – SP, CEP 13330-220.",
+        "Rua Cinco de Julho, 697 – Sala 2, Centro, Indaiatuba – SP, CEP 13330-220.",
     },
   ],
 };
@@ -386,7 +386,7 @@ const IMPLANTES: BlocoGeo = {
     {
       pergunta: "Onde fazer implante dentário em Indaiatuba?",
       resposta:
-        "Na Lemarc Odontologia, Rua 5 de Julho, 697 – Sala 2, Jardim Pau Preto, Indaiatuba/SP. A avaliação e o planejamento são feitos pela Dra. Letícia Marcondes (CRO-SP 139458) e a cirurgia pelo Dr. Rick. Agendamento pelo WhatsApp (19) 3894-5273.",
+        "Na Lemarc Odontologia, Rua Cinco de Julho, 697 – Sala 2, Centro, Indaiatuba/SP. A avaliação e o planejamento são feitos pela Dra. Letícia Marcondes (CRO-SP 139458) e a cirurgia pelo Dr. Rick. Agendamento pelo WhatsApp (19) 3894-5273.",
     },
   ],
 };
@@ -531,7 +531,7 @@ const DIFERENCIAIS: BlocoGeo = {
 
 const CONTATO: BlocoGeo = {
   resumo:
-    "O agendamento na Lemarc Odontologia é feito pelo WhatsApp (19) 3894-5273, de segunda a sexta-feira, das 9h às 12h e das 14h às 18h. A clínica fica na Rua 5 de Julho, 697 – Sala 2, Jardim Pau Preto, Indaiatuba/SP, e o atendimento é exclusivamente particular, com hora marcada.",
+    "O agendamento na Lemarc Odontologia é feito pelo WhatsApp (19) 3894-5273, de segunda a sexta-feira, das 9h às 12h e das 14h às 18h. A clínica fica na Rua Cinco de Julho, 697 – Sala 2, Centro, Indaiatuba/SP, e o atendimento é exclusivamente particular, com hora marcada.",
   faqTitulo: "Antes de agendar",
   faq: [
     {
@@ -580,7 +580,7 @@ export const fichaClinica: { rotulo: string; valor: string }[] = [
   { rotulo: "Nome", valor: "Lemarc Odontologia" },
   { rotulo: "Responsável técnica", valor: "Dra. Letícia Marcondes — CRO-SP 139458" },
   { rotulo: "Especialidade principal", valor: "Reabilitação oral e odontologia estética" },
-  { rotulo: "Endereço", valor: "Rua 5 de Julho, 697 – Sala 2, Jardim Pau Preto" },
+  { rotulo: "Endereço", valor: "Rua Cinco de Julho, 697 – Sala 2, Centro" },
   { rotulo: "Cidade", valor: "Indaiatuba – SP, CEP 13330-220" },
   { rotulo: "Horário", valor: "Segunda a sexta, das 9h às 12h e das 14h às 18h" },
   { rotulo: "Agendamento", valor: "WhatsApp (19) 3894-5273 — com hora marcada" },

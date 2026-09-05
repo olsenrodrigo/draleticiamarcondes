@@ -81,7 +81,7 @@ export default function Indaiatuba() {
 
       <SecaoContato
         titulo="Agende sua avaliação"
-        texto="Fale com a nossa equipe e agende sua avaliação na clínica, no Jardim Pau Preto."
+        texto="Fale com a nossa equipe e agende sua avaliação na clínica, no Centro de Indaiatuba."
         origem="dentista em Indaiatuba"
       />
     </Pagina>

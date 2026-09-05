@@ -114,7 +114,7 @@ const DATA_REVISAO = "2026-08-11";
 
 const enderecoPostal = {
   "@type": "PostalAddress",
-  streetAddress: "Rua 5 de Julho, 697 - Sala 2, Jardim Pau Preto",
+  streetAddress: "Rua Cinco de Julho, 697 - Sala 2, Centro",
   addressLocality: "Indaiatuba",
   addressRegion: "SP",
   postalCode: "13330-220",

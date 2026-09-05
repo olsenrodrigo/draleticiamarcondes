@@ -327,7 +327,7 @@ export const indaiatuba = {
   h1: "Dentista em Indaiatuba – Lemarc Odontologia",
   intro: "Está procurando uma clínica odontológica em Indaiatuba?",
   corpo:
-    "A Lemarc Odontologia está localizada no bairro Jardim Pau Preto e oferece atendimento odontológico especializado, 100% particular, de segunda a sexta-feira, para pacientes que buscam tratamentos como:",
+    "A Lemarc Odontologia está localizada no Centro e oferece atendimento odontológico especializado, 100% particular, de segunda a sexta-feira, para pacientes que buscam tratamentos como:",
   lista: [
     "Reabilitação oral",
     "Implantes dentários",
@@ -344,7 +344,7 @@ export const indaiatuba = {
   meta: {
     title: "Dentista em Indaiatuba | Lemarc Odontologia",
     description:
-      "Clínica odontológica no Jardim Pau Preto, Indaiatuba. Reabilitação oral, implantes, próteses e odontologia estética com atendimento particular.",
+      "Clínica odontológica no Centro de Indaiatuba. Reabilitação oral, implantes, próteses e odontologia estética com atendimento particular.",
   } satisfies Meta,
 };
 

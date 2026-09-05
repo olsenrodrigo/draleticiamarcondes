@@ -34,15 +34,18 @@ Ordem de execução — o item 4 é o de maior retorno:
 | 3 | Primeiro link externo real: **site na bio do Instagram** (hoje o Linktree não aponta para ele) e no Facebook | plataformas | pendente |
 | 4 | ~~Criar~~ **corrigir** o Perfil da Empresa: o campo "site" aponta para o Linktree | Google Business | **pendente — maior impacto** |
 | 5 | 301 de `www` para não-www | Nginx da VPS | ✅ conferido em 03/09/2026 |
-| 6 | Corrigir divergência de NAP (ver abaixo) | Facebook/diretórios | pendente |
+| 6 | Corrigir divergência de NAP (ver abaixo) | Facebook/diretórios | site ✅ 04/09 · redes pendentes |
 | 7 | Compressão e cache dos assets no Nginx (ver "Na VPS") | Nginx da VPS | pendente |
 | 8 | Avisar o Bing por IndexNow (`npm run indexnow`) | pós-deploy | pendente |
 
-**Divergência de NAP encontrada**: o Facebook da clínica registra o endereço como
-*Centro*; o site diz *Jardim Pau Preto*. O CEP 13330-220 resolve como "Centro" na base
-dos Correios. Endereço divergente entre fontes é um dos maiores freios de SEO local —
-**definir uma grafia única com a clínica** e replicá-la igual em site, Perfil da Empresa,
-Instagram, Facebook e Doctoralia.
+**NAP — resolvido em 04/09/2026.** A grafia oficial passa a ser a do Perfil da Empresa:
+
+> **Lemarc Odontologia** — Rua Cinco de Julho, 697 – Sala 2, Centro, Indaiatuba/SP,
+> CEP 13330-220 — (19) 3894-5273
+
+O site já foi alinhado. Replicar exatamente essa grafia no Instagram, no Facebook, no
+Doctoralia e em qualquer diretório: endereço divergente entre fontes é um dos maiores
+freios de SEO local.
 
 Prazo realista: indexação em dias a algumas semanas depois do passo 2; posição para os
 termos-alvo, alguns meses. Busca por marca ("lemarc odontologia") tende a resolver primeiro.
@@ -196,13 +199,19 @@ um dos dois.** O caminho é corrigir o que existe.
 | Coordenadas | −23,0859 / −47,2179 | −23,0892 / −47,2200 | ✅ corrigido — estava **422 m** fora |
 | `hasMap` | busca no Maps | ficha da clínica | ✅ corrigido |
 | `sameAs` | só Instagram | + ficha do Maps | ✅ corrigido — liga as duas entidades |
-| Bairro | Jardim Pau Preto | **Centro** (Perfil **e** Correios) | ⏳ aguarda confirmação da clínica |
-| Horário | seg–sex 9–12 e 14–18 | fecha 19h, abre sáb. 8h | ⏳ aguarda confirmação da clínica |
+| Bairro | Jardim Pau Preto | **Centro** (Perfil **e** Correios) | ✅ corrigido em 04/09 — site passou a dizer Centro |
+| Rua | "Rua 5 de Julho" | "Rua Cinco de Julho" | ✅ normalizado para bater com o Perfil |
+| Horário | seg–sex 9–12 e 14–18 | fecha 19h, abre sáb. 8h | ⚠️ **o site está certo — corrigir no Perfil** |
 
 O CEP 13330-220 resolve como **"Rua Cinco de Julho, Centro"** na base dos Correios
-(BrasilAPI), e o Perfil também diz Centro. O site é a única fonte que diz "Jardim Pau
-Preto" — provavelmente ele é que está errado, mas isso é fato da clínica, não decisão
-técnica.
+(BrasilAPI), e o Perfil também diz Centro. O site era a única fonte que dizia "Jardim Pau
+Preto"; confirmado com a clínica em 04/09/2026, **Centro passou a ser a grafia oficial** e
+todo o site foi alinhado (17 ocorrências em `content/` e `lib/seo.ts`, incluindo duas
+frases que diziam "bairro vizinho ao Centro" e viraram contradição).
+
+Os termos de bairro em `palavras-chave.ts` acompanharam: saiu "dentista Jardim Pau Preto",
+entrou "clínica odontológica Centro Indaiatuba". A regra do arquivo continua valendo — só
+entra termo que o texto do site sustenta.
 
 ### O que fazer dentro do Perfil (por ordem de impacto)
 

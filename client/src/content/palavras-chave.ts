@@ -50,10 +50,9 @@ export const termosRegionais = [
 
 /** Bairros e referências locais que aparecem no site. */
 export const termosDeBairro = [
-  "dentista Jardim Pau Preto",
   "dentista Centro de Indaiatuba",
-  "clínica odontológica Jardim Pau Preto",
-  "dentista Rua 5 de Julho Indaiatuba",
+  "clínica odontológica Centro Indaiatuba",
+  "dentista Rua Cinco de Julho Indaiatuba",
 ];
 
 export type AlvoDaRota = {
