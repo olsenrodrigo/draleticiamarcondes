@@ -31,7 +31,11 @@ function meta(atributo: "name" | "property", chave: string, valor: string) {
   el.setAttribute("content", valor);
 }
 
-export const urlDaRota = (path: string) => `${site.origin}${path === "/" ? "" : path}`;
+// A home sai como `.../` e não como `...com.br` puro: é a URL que o servidor
+// realmente entrega, e é a mesma forma usada no canonical, no sitemap e no
+// og:url. As duas são equivalentes para o Google (caminho vazio == "/"), mas
+// manter uma só forma evita conferência ambígua no Search Console.
+export const urlDaRota = (path: string) => `${site.origin}${path}`;
 
 /** Aplica title, description, canonical, Open Graph e JSON-LD da rota atual. */
 export function useSeo(dados: Meta & { path: string; jsonLd?: unknown }) {

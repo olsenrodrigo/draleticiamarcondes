@@ -173,7 +173,7 @@ async function gerarSitemap(caminhos: string[], origem: string) {
   const urls = caminhos
     .map(
       (r) =>
-        `  <url>\n    <loc>${origem}${r === "/" ? "" : r}</loc>\n` +
+        `  <url>\n    <loc>${origem}${r}</loc>\n` +
         `    <lastmod>${hoje}</lastmod>\n    <changefreq>${frequencia(r)}</changefreq>\n` +
         `    <priority>${prioridade(r)}</priority>\n  </url>`,
     )

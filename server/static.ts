@@ -2,6 +2,44 @@ import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
 
+/**
+ * Uma página, uma URL.
+ *
+ * `/sobre`, `/sobre/` e `/index.html` respondiam 200 com o mesmo HTML. Para o
+ * Google isso são três URLs distintas com conteúdo igual — é o que gera
+ * "Cópia, o Google e o usuário selecionaram uma página canônica diferente" e
+ * "Página alternativa com tag canônica adequada" no Search Console.
+ *
+ * O `<link rel="canonical">` sozinho não resolve: ele *pede* consolidação e o
+ * Google decide se obedece. O 301 impõe. Os dois juntos é o certo.
+ *
+ * O destino é calculado de uma vez (`/index.html` -> `/`, sem passar por `/`
+ * intermediário) porque cadeia de redirecionamento é penalizada por si só.
+ */
+function canonicalizarUrl(app: Express) {
+  app.use((req, res, next) => {
+    const corte = req.originalUrl.indexOf("?");
+    const caminho = corte === -1 ? req.originalUrl : req.originalUrl.slice(0, corte);
+    const query = corte === -1 ? "" : req.originalUrl.slice(corte);
+
+    let destino = caminho;
+    if (/\/index\.html$/i.test(destino)) {
+      destino = destino.slice(0, -"index.html".length);
+    }
+    if (destino.length > 1) {
+      destino = destino.replace(/\/+$/, "");
+    }
+    if (destino === "") {
+      destino = "/";
+    }
+
+    if (destino !== caminho) {
+      return res.redirect(301, destino + query);
+    }
+    next();
+  });
+}
+
 export function serveStatic(app: Express) {
   const distPath = path.resolve(__dirname, "public");
   if (!fs.existsSync(distPath)) {
@@ -9,6 +47,9 @@ export function serveStatic(app: Express) {
       `Could not find the build directory: ${distPath}, make sure to build the client first`,
     );
   }
+
+  // Antes do express.static: senão ele entrega /index.html antes do 301 rodar.
+  canonicalizarUrl(app);
 
   // Sem isto o express.static manda `max-age=0` em tudo — inclusive nos arquivos
   // de /assets, que já trazem hash de conteúdo no nome e nunca mudam sem mudar
