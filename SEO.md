@@ -35,7 +35,7 @@ Ordem de execução — o item 4 é o de maior retorno:
 | 4 | ~~Criar~~ **corrigir** o Perfil da Empresa: o campo "site" aponta para o Linktree | Google Business | **pendente — maior impacto** |
 | 5 | 301 de `www` para não-www | Nginx da VPS | ✅ conferido em 03/09/2026 |
 | 6 | Corrigir divergência de NAP (ver abaixo) | Facebook/diretórios | site ✅ 04/09 · redes pendentes |
-| 7 | Compressão e cache dos assets no Nginx (ver "Na VPS") | Nginx da VPS | pendente |
+| 7 | Compressão e cache dos assets no Nginx (ver "Na VPS") | Nginx da VPS | ✅ conferido em 08/09/2026 |
 | 8 | Avisar o Bing por IndexNow (`npm run indexnow`) | pós-deploy | pendente |
 
 **NAP — resolvido em 04/09/2026.** A grafia oficial passa a ser a do Perfil da Empresa:
@@ -84,12 +84,16 @@ Estado medido em produção em **03/09/2026** (`curl -I` contra o domínio real)
 | `/robots.txt`, `/sitemap.xml`, `/llms.txt` respondendo 200 | ✅ ok |
 | HTML pré-renderizado servido inclusive para GPTBot | ✅ ok |
 | 404 com status HTTP 404 real | ✅ ok |
-| **Compressão de JS/CSS** | ❌ **só o HTML é comprimido** |
-| **Cache dos assets com hash** | ❌ **`max-age=0` em tudo** |
-| **HTTP/2** | ❌ **negocia HTTP/1.1** |
+| **Compressão de JS/CSS** | ✅ resolvido — conferido em 08/09/2026 |
+| **Cache dos assets com hash** | ✅ resolvido — `max-age=31536000, immutable` |
+| **HTTP/2** | ✅ resolvido — negocia HTTP/2 |
 
-Os três ❌ pesam em Core Web Vitals, e Core Web Vitals é critério de ranqueamento — ainda
-mais em busca local no celular, que é de onde vem quase todo paciente.
+> Os três estavam ❌ na medição de 03/09/2026 e apareciam aqui como pendências. Nova
+> medição em **08/09/2026** mostra os três resolvidos: HTTP/2 negociado, `content-encoding:
+> gzip` no bundle de JS e `cache-control: public, max-age=31536000, immutable` nos assets
+> com hash. O bloco de Nginx abaixo fica como referência do que foi aplicado — e porque os
+> sites irmãos (drapatriciadoria, germanovainer) ainda **não** têm o `gzip_types`, então
+> lá o JS continua saindo cru.
 
 **Cache**: já corrigido no código (`server/static.ts` — `immutable` de 1 ano em `/assets`,
 `must-revalidate` no HTML). Basta publicar o build novo; o Nginx repassa esses cabeçalhos.
